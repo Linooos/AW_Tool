@@ -1,24 +1,17 @@
-import icons
-from components.page_about import About
-from components.page_dialog import ExampleDialogs
-from components.page_homepage import ExampleHomepage
-from components.page_icons import ExampleIcons
-from components.page_option_cards import ExampleOptionCards
-from components.page_widgets import ExampleWidgets
-from components.page_container import ExampleContainer
-from components.page_functional import ExampleFunctional
+
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDesktopWidget
+from PyQt5.QtGui import QPainter, QBrush, QColor
 
 import siui
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
 from siui.templates.application.application_mini_window import SiliconApplication
 
-siui.core.globals.SiGlobal.siui.loadIcons(
-    icons.IconDictionary(color=SiGlobal.siui.colors.fromToken(SiColor.SVG_NORMAL)).icons
-)
+# siui.core.globals.SiGlobal.siui.loadIcons(
+#     icons.IconDictionary(color=SiGlobal.siui.colors.fromToken(SiColor.SVG_NORMAL)).icons
+# )
 
 
 class AW_menu(SiliconApplication):
@@ -27,13 +20,19 @@ class AW_menu(SiliconApplication):
 
         screen_geo = QDesktopWidget().screenGeometry()
 
-        #self.setWindowFlag(Qt.FramelessWindowHint)
-        self.setMinimumSize(1200, 380)
-        self.resize(1300, 1200)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setMinimumSize(400, 380)
+        self.resize(400, 800)
         self.move((screen_geo.width() - self.width()) // 2, (screen_geo.height() - self.height()) // 2)
+        self.setStyleSheet("""
+            border-radius: 5px;
+        """)
+
         self.layerMain().setTitle("AW TOOLS")
         self.setWindowTitle("AW TOOLS")
         self.setWindowIcon(QIcon("./img/empty_icon.png"))
+
 
         # self.layerMain().addPage(ExampleHomepage(self),
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_home_filled"),
@@ -64,3 +63,10 @@ class AW_menu(SiliconApplication):
         # self.layerMain().setPage(0)
 
         SiGlobal.siui.reloadAllWindowsStyleSheet()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setBrush(QBrush(QColor(255, 255, 255)))
+        painter.setPen(Qt.NoPen)
+        painter.drawRoundedRect(self.rect(), 20, 20)

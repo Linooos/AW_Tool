@@ -22,6 +22,7 @@ class SiColor(Enum):
     INTERFACE_BG_C = auto()
     INTERFACE_BG_D = auto()
     INTERFACE_BG_E = auto()
+    INTERFACE_BG_F = auto()
 
     TEXT_A = auto()
     TEXT_B = auto()

@@ -14,6 +14,7 @@ class SiLabel(ABCAnimatedLabel):
         super().setFont(SiGlobal.siui.fonts["S_NORMAL"])
 
 
+
 class SiPixLabel(SiLabel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -72,6 +73,27 @@ class SiPixLabel(SiLabel):
         super().resizeEvent(event)
         self.draw()
 
+class DragSiLabel(SiLabel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.drag_start_position = None
+        self._is_dragged = False
+
+    def mousePressEvent(self, ev):
+        if ev.button() == Qt.LeftButton:
+            self._is_dragged = True
+            self.drag_start_position = ev.globalPos() - self.window().frameGeometry().topLeft()
+            ev.accept()
+
+    def mouseMoveEvent(self, ev):
+        if self._is_dragged:
+            self.window().move(ev.globalPos() - self.drag_start_position)
+            ev.accept()
+
+    def mouseReleaseEvent(self, ev):
+        if ev.button() == Qt.LeftButton:
+            self._is_dragged = False
+            ev.accept()
 
 class SiSvgLabel(SiLabel):
     """

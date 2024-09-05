@@ -137,7 +137,7 @@ class StackedContainerWithShowUpAnimation(SiStackedContainer):
         self.widgets[index].moveTo(0, 0)
 
 
-class PageView(SiDenseHContainer):
+class PageView(SiDenseVContainer):
     """
     页面视图，包括左侧的导航栏和右侧的页面
     """
@@ -186,7 +186,7 @@ class PageView(SiDenseHContainer):
         self.stacked_container.setStyleSheet(
             """
             #stacked_container {{
-                border-top-left-radius:6px; border-bottom-right-radius: 8px;
+                border-top-left-radius:6px; border-bottom-right-radius: 6px;
                 background-color: {}; border:1px solid {};
             }}
             """.format(SiGlobal.siui.colors["INTERFACE_BG_B"], SiGlobal.siui.colors["INTERFACE_BG_C"])

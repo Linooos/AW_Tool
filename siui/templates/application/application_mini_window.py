@@ -24,7 +24,7 @@ class SiliconApplication(QMainWindow):
         SiGlobal.siui.windows["TOOL_TIP"].setOpacity(0)
 
         # 初始化窗口
-        self.resize(1200, 700)
+        self.resize(400, 800)
         self.setWindowTitle("Silicon Application Template")
 
         # 构建界面

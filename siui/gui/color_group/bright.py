@@ -24,6 +24,7 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.INTERFACE_BG_C, "#e5e5e5")
         self.assign(SiColor.INTERFACE_BG_D, "#eeeeee")
         self.assign(SiColor.INTERFACE_BG_E, "#f6f6f6")
+        self.assign(SiColor.INTERFACE_BG_F, "#a0a0a0")
 
         self.assign(SiColor.TEXT_A, "#171d1b")
         self.assign(SiColor.TEXT_B, "#2e3432")
