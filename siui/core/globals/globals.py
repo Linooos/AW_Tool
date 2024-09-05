@@ -16,7 +16,7 @@ class SiliconUIGlobal:
 
     # 颜色字典，存储全部动态设置的颜色
     # 值为 RRGGBB 或 AARRGGBB 色号
-    colors = DarkColorGroup()
+    colors = BrightColorGroup()
 
     # 图标字典，储存所有 SVG 类型的图标数据
     # 值为 SVG信息的 bytes

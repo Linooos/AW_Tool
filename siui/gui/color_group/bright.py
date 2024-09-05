@@ -19,7 +19,7 @@ class BrightColorGroup(SiColorGroup):
 
         self.assign(SiColor.TOOLTIP_BG, "#eff9f9f9")
 
-        self.assign(SiColor.INTERFACE_BG_A, "#d6d6d6")
+        self.assign(SiColor.INTERFACE_BG_A, "#c4c4c4")
         self.assign(SiColor.INTERFACE_BG_B, "#dddddd")
         self.assign(SiColor.INTERFACE_BG_C, "#e5e5e5")
         self.assign(SiColor.INTERFACE_BG_D, "#eeeeee")
@@ -39,7 +39,7 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.SIDE_MSG_THEME_WARNING, "#986351")
         self.assign(SiColor.SIDE_MSG_THEME_ERROR, "#98515b")
 
-        self.assign(SiColor.MENU_BG, "#e5e5e5")
+        self.assign(SiColor.MENU_BG, "#464a4d")
 
         # 标题相关
         self.assign(SiColor.TITLE_INDICATOR, "#2accb3")

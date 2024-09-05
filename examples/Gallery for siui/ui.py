@@ -27,7 +27,7 @@ class MySiliconApp(SiliconApplication):
 
         screen_geo = QDesktopWidget().screenGeometry()
         self.setMinimumSize(1024, 380)
-        self.resize(1366, 916)
+        self.resize(1366, 1200)
         self.move((screen_geo.width() - self.width()) // 2, (screen_geo.height() - self.height()) // 2)
         self.layerMain().setTitle("Silicon UI Gallery")
         self.setWindowTitle("Silicon UI Gallery")
