@@ -35,9 +35,9 @@ class AW_menu(SiliconApplication):
         self.setWindowTitle("AW TOOLS")
         self.setWindowIcon(QIcon("./img/empty_icon.png"))
 
-        self.layerMain().addPage(ExampleHomepage(self),
-                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_home_filled"),
-                                 hint="主页", side="top")
+        # self.layerMain().addPage(ExampleHomepage(self),
+        #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_home_filled"),
+        #                          hint="主页", side="top")
         # self.layerMain().addPage(ExampleIcons(self),
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_diversity_filled"),
         #                          hint="图标包", side="top")
@@ -61,6 +61,6 @@ class AW_menu(SiliconApplication):
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_info_filled"),
         #                          hint="关于", side="bottom")
         #
-        self.layerMain().setPage(0)
+        # self.layerMain().setPage(0)
 
         SiGlobal.siui.reloadAllWindowsStyleSheet()

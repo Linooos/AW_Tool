@@ -110,6 +110,13 @@ class miniMenuLayer(SiLayer):
         self.app_icon.resize(24, 24)
         self.app_icon.load("./img/logo_new.png")
 
+        # 顶栏
+        self.app_top_tip = SiLabel(self)
+        self.app_top_tip.setAlignment(Qt.AlignCenter)
+        self.app_top_tip.setFont(SiGlobal.siui.fonts["S_NORMAL"])
+
+        #关闭按钮
+
         # 应用标题
         self.app_title = SiLabel(self)
         self.app_title.setAlignment(Qt.AlignVCenter | Qt.AlignLeft)
@@ -128,6 +135,8 @@ class miniMenuLayer(SiLayer):
         # <- 添加到垂直容器
         self.container_title_and_content.addWidget(self.container_title)
         self.container_title_and_content.addWidget(self.page_view)
+
+
 
         # 隐藏阴影层，因为没有任何用
         self.dim_.hide()
