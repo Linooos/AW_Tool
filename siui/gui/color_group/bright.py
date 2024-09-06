@@ -24,7 +24,7 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.INTERFACE_BG_C, "#e5e5e5")
         self.assign(SiColor.INTERFACE_BG_D, "#eeeeee")
         self.assign(SiColor.INTERFACE_BG_E, "#f6f6f6")
-        self.assign(SiColor.INTERFACE_BG_F, "#a0a0a0")
+        self.assign(SiColor.INTERFACE_BG_F, "#2b2d2d")
 
         self.assign(SiColor.TEXT_A, "#171d1b")
         self.assign(SiColor.TEXT_B, "#2e3432")
@@ -60,8 +60,8 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.BUTTON_THEMED_SHADOW_A, "#1d8699")
         self.assign(SiColor.BUTTON_THEMED_SHADOW_B, "#1d9963")
 
-        self.assign(SiColor.BUTTON_ON, "#372456")
-        self.assign(SiColor.BUTTON_OFF, "#562b49")
+        self.assign(SiColor.BUTTON_ON, "#e5e5e5")
+        self.assign(SiColor.BUTTON_OFF, "#afafaf")
 
         self.assign(SiColor.RADIO_BUTTON_UNCHECKED, "#211F25")
         self.assign(SiColor.RADIO_BUTTON_CHECKED, "#9c65ae")

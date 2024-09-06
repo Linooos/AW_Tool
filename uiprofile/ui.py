@@ -2,7 +2,16 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDesktopWidget
-from PyQt5.QtGui import QPainter, QBrush, QColor
+from components.page_about import About
+from components.page_dialog import ExampleDialogs
+from components.page_homepage import ExampleHomepage
+from components.page_icons import ExampleIcons
+from components.page_option_cards import ExampleOptionCards
+from components.page_widgets import ExampleWidgets
+from components.page_container import ExampleContainer
+from components.page_functional import ExampleFunctional
+
+
 
 import siui
 from siui.core.color import SiColor
@@ -22,27 +31,26 @@ class AW_menu(SiliconApplication):
 
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setMinimumSize(400, 380)
-        self.resize(400, 800)
-        self.move((screen_geo.width() - self.width()) // 2, (screen_geo.height() - self.height()) // 2)
-        self.setStyleSheet("""
-            border-radius: 5px;
-        """)
+        self.setMinimumSize(600, 380)
+        self.resize(600, 800)
+        self.move(self.screen().availableGeometry().width() - self.width(), self.screen().availableGeometry().height() - self.height())
+        #self.move((screen_geo.width() - self.width()) // 2, (screen_geo.height() - self.height()) // 2)
+
 
         self.layerMain().setTitle("AW TOOLS")
         self.setWindowTitle("AW TOOLS")
         self.setWindowIcon(QIcon("./img/empty_icon.png"))
 
 
-        # self.layerMain().addPage(ExampleHomepage(self),
-        #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_home_filled"),
-        #                          hint="主页", side="top")
+        self.layerMain().addPage(ExampleHomepage(self),
+                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_home_filled"),
+                                 hint="主页", side="bottom")
         # self.layerMain().addPage(ExampleIcons(self),
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_diversity_filled"),
         #                          hint="图标包", side="top")
-        # self.layerMain().addPage(ExampleWidgets(self),
-        #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_box_multiple_filled"),
-        #                          hint="控件", side="top")
+        self.layerMain().addPage(ExampleWidgets(self),
+                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_box_multiple_filled"),
+                                 hint="控件", side="top")
         # self.layerMain().addPage(ExampleContainer(self),
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_align_stretch_vertical_filled"),
         #                          hint="容器", side="top")
@@ -64,9 +72,4 @@ class AW_menu(SiliconApplication):
 
         SiGlobal.siui.reloadAllWindowsStyleSheet()
 
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter.setBrush(QBrush(QColor(255, 255, 255)))
-        painter.setPen(Qt.NoPen)
-        painter.drawRoundedRect(self.rect(), 20, 20)
+

@@ -105,16 +105,15 @@ class miniMenuLayer(SiLayer):
 
         #关闭按钮
         self.link_button = SiSimpleButton(self)
-
-        self.link_button.setFixedSize(32, 32)
+        self.link_button.setFixedSize(28,28)
+        self.app_top_tip.setAlignment(Qt.AlignCenter)
         self.link_button.attachment().load("./uiprofile/icon/cross.svg")
         self.link_button.setHint("quit")
         self.link_button.clicked.connect(lambda :quit())
         link_button_container = SiDenseVContainer(self)
         link_button_container.setAlignment(Qt.AlignCenter)
-
-        link_button_container.setFixedSize(50,32)
-        link_button_container.addWidget(self.link_button)
+        link_button_container.setFixedSize(50,40)
+        link_button_container.addWidget(self.link_button,side='bottom')
 
 
         # -> 垂直容器，上方是标题，下方是窗口内容
@@ -127,52 +126,61 @@ class miniMenuLayer(SiLayer):
         self.container_title = SiDenseHContainer(self)
         self.container_title.setSpacing(0)
         self.container_title.setAlignment(Qt.AlignCenter)
-        self.container_title.setFixedHeight(64)
+        self.container_title.setFixedHeight(60)
 
         # 应用内图标
         self.app_icon = SiSvgLabel(self)
         self.app_icon.resize(40, 40)
-        self.app_icon.setSvgSize(40,40)
+        self.app_icon.setSvgSize(28,28)
         self.app_icon.load("./uiprofile/icon/AWCC.svg")
+        app_icon_container = SiDenseVContainer(self)
+        app_icon_container.setAlignment(Qt.AlignCenter)
+        app_icon_container.setFixedSize(50,50)
+        app_icon_container.addWidget(self.app_icon,side='bottom')
 
         # 应用标题
         self.app_title = SiLabel(self)
         self.app_title.setAlignment(Qt.AlignVCenter | Qt.AlignLeft)
-        self.app_title.setFont(SiGlobal.siui.fonts["S_NORMAL"])
+        self.app_title.setFont(SiGlobal.siui.fonts["M_BOLD"])
         self.app_title.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
         self.app_title.setText("Silicon 应用模版")
+        app_title_container = SiDenseVContainer(self)
+        app_title_container.setAlignment(Qt.AlignCenter)
+        app_title_container.setFixedSize(110,40)
+        app_title_container.addWidget(self.app_title,side='bottom')
 
         self.container_title.addPlaceholder(2)
-        self.container_title.addPlaceholder(16)
-        self.container_title.addWidget(self.app_icon)
-        self.container_title.addPlaceholder(16)
-        self.container_title.addWidget(self.app_title)
+        self.container_title.addPlaceholder(5)
+        self.container_title.addWidget(app_icon_container)
+        self.container_title.addPlaceholder(10)
+        self.container_title.addWidget(app_title_container)
+        self.container_title.setFixedHeight(120)
 
 
         self.page_view = PageView(self)
-        self.page_view.setContentsMargins(0,0,0,0)
+
 
         self.drag_label = DragSiLabel(self)
         self.drag_label.setFixedSize(self.window().width(), 40)
         self.background_label.setFixedStyleSheet("")
         self.background_label.setFixedStyleSheet("border-radius: 5px")
         self.drag_label.setAlignment(Qt.AlignCenter)
-        self.drag_label.setColor(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F))
+        #self.drag_label.setColor(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F))
 
 
         # <- 添加到垂直容器
+        self.app_top_tip.addWidget(self.container_title,side='left',index=0)
         self.app_top_tip.addWidget(self.drag_label,side='left')
         self.app_top_tip.addWidget(link_button_container,side='right')
         self.container_title_and_content.addWidget(self.app_top_tip)
-        self.container_title_and_content.addWidget(self.container_title)
-        self.container_title_and_content.addWidget(self.page_view)
+        self.container_title_and_content.addWidget(self.page_view,side="bottom")
 
 
         # 隐藏阴影层，因为没有任何用
         self.dim_.hide()
 
     def reloadStyleSheet(self):
-        self.background_label.setStyleSheet("background-color: {};".format(
+        self.background_label.setStyleSheet("background-color: {};border-radius:10px".format(
             self.colorGroup().fromToken(SiColor.INTERFACE_BG_A),
             self.colorGroup().fromToken(SiColor.INTERFACE_BG_B))
         )

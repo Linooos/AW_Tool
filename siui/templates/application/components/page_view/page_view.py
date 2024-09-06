@@ -15,8 +15,8 @@ class PageButton(SiToggleButton):
 
         # 设置自身样式
         self.setBorderRadius(6)
-        self.colorGroup().assign(SiColor.BUTTON_OFF, "#00FFFFFF")
-        self.colorGroup().assign(SiColor.BUTTON_ON, "#10FFFFFF")
+        #self.colorGroup().assign(SiColor.BUTTON_OFF, "#00FFFFFF")
+        #self.colorGroup().assign(SiColor.BUTTON_ON, "#10FFFFFF")
 
         # 创建高光指示条，用于指示被选中
         self.active_indicator = SiLabel(self)
@@ -105,7 +105,9 @@ class PageNavigator(ABCSiNavigationBar):
         """
         new_page_button = PageButton(self)
         new_page_button.setIndex(self.maximumIndex())
-        new_page_button.setStyleSheet("background-color: #20FF0000")
+        #new_page_button.setStyleSheet("background-color: {};".format(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F)))
+        new_page_button.setStyleSheet(
+            "background-color: #2d2d2d")
         new_page_button.resize(40, 40)
         new_page_button.setHint(hint)
         new_page_button.attachment().setSvgSize(20, 20)
@@ -186,7 +188,7 @@ class PageView(SiDenseVContainer):
         self.stacked_container.setStyleSheet(
             """
             #stacked_container {{
-                border-top-left-radius:6px; border-bottom-right-radius: 6px;
+                border-top-left-radius:10px; border-bottom-right-radius: 10px;
                 background-color: {}; border:1px solid {};
             }}
             """.format(SiGlobal.siui.colors["INTERFACE_BG_B"], SiGlobal.siui.colors["INTERFACE_BG_C"])
