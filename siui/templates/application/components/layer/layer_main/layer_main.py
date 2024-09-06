@@ -104,16 +104,16 @@ class miniMenuLayer(SiLayer):
         self.app_top_tip.setFixedHeight(40)
 
         #关闭按钮
-        self.link_button = SiSimpleButton(self)
-        self.link_button.setFixedSize(28,28)
+        self.hide_button = SiSimpleButton(self)
+        self.hide_button.setFixedSize(28,28)
         self.app_top_tip.setAlignment(Qt.AlignCenter)
-        self.link_button.attachment().load("./uiprofile/icon/cross.svg")
-        self.link_button.setHint("quit")
-        self.link_button.clicked.connect(lambda :quit())
-        link_button_container = SiDenseVContainer(self)
-        link_button_container.setAlignment(Qt.AlignCenter)
-        link_button_container.setFixedSize(50,40)
-        link_button_container.addWidget(self.link_button,side='bottom')
+        self.hide_button.attachment().load("./uiprofile/icon/minus-small.svg")
+        self.hide_button.setHint("quit")
+        self.hide_button.clicked.connect(lambda :self.window().hide())
+        hide_button_container = SiDenseVContainer(self)
+        hide_button_container.setAlignment(Qt.AlignCenter)
+        hide_button_container.setFixedSize(50,40)
+        hide_button_container.addWidget(self.hide_button,side='bottom')
 
 
         # -> 垂直容器，上方是标题，下方是窗口内容
@@ -171,7 +171,7 @@ class miniMenuLayer(SiLayer):
         # <- 添加到垂直容器
         self.app_top_tip.addWidget(self.container_title,side='left',index=0)
         self.app_top_tip.addWidget(self.drag_label,side='left')
-        self.app_top_tip.addWidget(link_button_container,side='right')
+        self.app_top_tip.addWidget(hide_button_container,side='right')
         self.container_title_and_content.addWidget(self.app_top_tip)
         self.container_title_and_content.addWidget(self.page_view,side="bottom")
 

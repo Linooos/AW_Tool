@@ -13,23 +13,24 @@ from components.page_functional import ExampleFunctional
 
 
 
-import siui
+import TrayTaskWindow as TrayTaskWindow
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
-from siui.templates.application.application_mini_window import SiliconApplication
+
 
 # siui.core.globals.SiGlobal.siui.loadIcons(
 #     icons.IconDictionary(color=SiGlobal.siui.colors.fromToken(SiColor.SVG_NORMAL)).icons
 # )
 
 
-class AW_menu(SiliconApplication):
+class AW_menu(TrayTaskWindow.TrayTaskWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         screen_geo = QDesktopWidget().screenGeometry()
 
         self.setWindowFlag(Qt.FramelessWindowHint)
+
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setMinimumSize(600, 380)
         self.resize(600, 800)
@@ -39,7 +40,7 @@ class AW_menu(SiliconApplication):
 
         self.layerMain().setTitle("AW TOOLS")
         self.setWindowTitle("AW TOOLS")
-        self.setWindowIcon(QIcon("./img/empty_icon.png"))
+        self.setWindowIcon(QIcon("./uiprofile/icon/AWCC.svg.png"))
 
 
         self.layerMain().addPage(ExampleHomepage(self),
