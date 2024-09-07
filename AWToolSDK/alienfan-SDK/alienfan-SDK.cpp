@@ -5,13 +5,13 @@
 
 #pragma comment(lib, "wbemuuid.lib")
 
-//#define _TRACE_
+//#define _DEBUG
 
 namespace AlienFan_SDK {
 
 	Control::Control() {
 
-#ifdef _TRACE_
+#ifdef _DEBUG
 		printf("WMI activation started.\n");
 #endif
 		IWbemLocator* m_WbemLocator;
@@ -114,15 +114,16 @@ namespace AlienFan_SDK {
 				}
 			}
 			enum_obj->Release();
-		}
-#ifdef _TRACE_
-		printf("%d sensors of #%d added, %d total\n", uNumOfInstances, type, (int)sensors.size());
+
+#ifdef _DEBUG
+			printf("%d sensors of #%d added, %d total\n", uNumOfInstances, type, (int)sensors.size());
 #endif
+		}
 	}
 
 	bool Control::Probe() {
 		if (m_WbemServices && m_WbemServices->GetObject((BSTR)L"AWCCWmiMethodFunction", NULL, nullptr, &m_AWCCGetObj, nullptr) == S_OK) {
-#ifdef _TRACE_
+#ifdef _DEBUG
 			printf("AWCC section detected!\n");
 #endif
 			// need to get instance
@@ -141,27 +142,27 @@ namespace AlienFan_SDK {
 				for (int type = 0; type < 2; type++)
 					if (isSupported = (m_AWCCGetObj->GetMethod(commandList[functionID[type][getPowerID]], NULL, &m_InParamaters, nullptr) == S_OK && m_InParamaters)) {
 						sysType = type;
-#ifdef _TRACE_
+#ifdef _DEBUG
 						printf("Fan Control available, system type %d\n", sysType);
 #endif
 						systemID = CallWMIMethod(getSysID, 2);
-#ifdef _TRACE_
+#ifdef _DEBUG
 						printf("System ID = %d\n", systemID);
 #endif
 						isGmode = m_AWCCGetObj->GetMethod(commandList[2], NULL, nullptr, nullptr) == S_OK;
-#ifdef _TRACE_
+#ifdef _DEBUG
 						if (isGmode)
 							printf("G-Mode available\n");
 #endif
 						if (isTcc = ((maxTCC = CallWMIMethod(getMaxTCC)) > 0)) {
 							maxOffset = CallWMIMethod(getMaxOffset);
 						}
-#ifdef _TRACE_
+#ifdef _DEBUG
 						if (isTcc)
 							printf("TCC control available\n");
 #endif
 						isXMP = CallWMIMethod(getXMP) >= 0;
-#ifdef _TRACE_
+#ifdef _DEBUG
 						if (isXMP)
 							printf("Memory XMP available\n");
 #endif
@@ -173,7 +174,7 @@ namespace AlienFan_SDK {
 							byte vkind = funcID & 0xff;
 							if (funcID > 0x100) {
 								// sensor
-#ifdef _TRACE_
+#ifdef _DEBUG
 								printf("Sensor ID=%x found\n", funcID);
 #endif
 								sensors.push_back({ { vkind, 1 }, sensors.size() < 2 ? temp_names[sensors.size()] : "Sensor #" + to_string(sensors.size()) });
@@ -182,14 +183,14 @@ namespace AlienFan_SDK {
 								if (funcID > 0x8f) {
 									// power mode
 									powers.push_back(vkind);
-#ifdef _TRACE_
+#ifdef _DEBUG
 									printf("Power ID=%x found\n", funcID);
 #endif
 								}
 								else {
 									// fan
 									fans.push_back({ vkind, (byte)CallWMIMethod(getFanSensor, vkind) });
-#ifdef _TRACE_
+#ifdef _DEBUG
 									printf("Fan ID=%x found\n", funcID);
 #endif
 								}
@@ -197,7 +198,7 @@ namespace AlienFan_SDK {
 							fIndex++;
 							funcID = CallWMIMethod(getPowerID, fIndex);
 						}
-#ifdef _TRACE_
+#ifdef _DEBUG
 						printf("%d fans, %d sensors, %d Power modes found, last reply %x\n", (int) fans.size(), (int) sensors.size(), (int)powers.size(), funcID);
 #endif
 						if (sysType) {
@@ -331,7 +332,7 @@ namespace AlienFan_SDK {
 			ac->m_AWCCGetObj->GetMethod(colorList[0], NULL, &m_InParamaters, nullptr) == S_OK && m_InParamaters) {
 			m_WbemServices = ac->m_WbemServices;
 			m_instancePath = ac->m_instancePath;
-#ifdef _TRACE_
+#ifdef _DEBUG
 			VARIANT res{ VT_UNKNOWN };
 			CIMTYPE restype;
 			m_InParamaters->Get(L"arg2", 0, &res, &restype, nullptr);
@@ -348,7 +349,7 @@ namespace AlienFan_SDK {
 			IWbemClassObject* m_outParameters = NULL;
 			VARIANT parameters{ VT_ARRAY | VT_UI1 };
 			SAFEARRAY* args = SafeArrayCreateVector(VT_UI1, 0, 8);
-#ifdef _TRACE_
+#ifdef _DEBUG
 			if (!args)
 				printf("Light array creation failed!\n");
 #endif
@@ -356,7 +357,7 @@ namespace AlienFan_SDK {
 			//SafeArrayAccessData(args, (void HUGEP * FAR*) &pdFreq);
 			for (long i = 0; i < 8; i++) {
 				HRESULT res = SafeArrayPutElement(args, &i, &arg1[i]);
-#ifdef _TRACE_
+#ifdef _DEBUG
 				if (res != S_OK)
 					printf("Light array element error %x\n", res);
 #endif
