@@ -26,10 +26,10 @@ public:
 
 	////读取初始化时检测的sensors列表并返回index代表的传感器属性
 	////return：nullptr错误（参数）
-	//AlienFan_SDK::ALIENFAN_SEN_INFO* getSensor(DWORD index);
+	AlienFan_SDK::ALIENFAN_SEN_INFO* getSensor(DWORD index);
 	////读取初始化时检测的fans列表并返回index代表的风扇属性
 	////return：nullptr错误（参数）
-	//AlienFan_SDK::ALIENFAN_FAN_INFO* getFan(DWORD index);
+	AlienFan_SDK::ALIENFAN_FAN_INFO* getFan(DWORD index);
 	//BYTE getPower(DWORD index);
 	//DWORD getFanRPM(BYTE fanid);
 	//DWORD getMaxRPM(BYTE fanid);
