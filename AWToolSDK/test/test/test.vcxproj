@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{cba1574c-e7b7-47a1-9a35-b015f128fb5c}</ProjectGuid>
-    <RootNamespace>AWToolSDK</RootNamespace>
+    <ProjectGuid>{5aa5ce90-26b0-4f25-9377-c76c74351964}</ProjectGuid>
+    <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,12 +72,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.pyd</TargetExt>
-    <IncludePath>$(MSBuildStartupDirectory)\pybind11\include;$(PyAWTool)\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\WinUsers\abc67\Documents\GitHub\AW\AWToolSDK\pybind11\include;$(PyAWTool)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(PyAWTool)\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.pyd</TargetExt>
-    <IncludePath>$(MSBuildStartupDirectory)\pybind11\include;$(PyAWTool)\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\WinUsers\abc67\Documents\GitHub\AW\AWToolSDK\pybind11\include;$(PyAWTool)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(PyAWTool)\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -112,8 +112,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;AWTOOLSDK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,8 +128,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CONSOLE;AWTOOLSDK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,16 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AWToolSDK.cpp" />
-    <ClCompile Include="PythonOutput.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AWToolSDK.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\alienfan-SDK\alienfan-SDK_v2.vcxproj">
-      <Project>{9321a480-9118-4173-b79d-45d8253c2c47}</Project>
-    </ProjectReference>
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

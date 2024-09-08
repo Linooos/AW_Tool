@@ -1,15 +1,9 @@
 ﻿// AWToolSDK.cpp : 定义 DLL 的导出函数。
 //
-#include "pch.h"
-#include "framework.h"
+#include <pybind11/pybind11.h>
 #include "AWToolSDK.h"
 
-// 这是导出变量的一个示例
-AWTOOLSDK_API int nAWToolSDK=0;
-
-// 这是导出函数的一个示例。
-
-// 这是已导出类的构造函数。
+#ifdef ALIEN_FAN_SDK
 FanControl::FanControl()
 {
     this->controller = new AlienFan_SDK::Control();
@@ -36,5 +30,9 @@ CHAR FanControl::checkAPI(byte type)
 
     return -1;
 }
+#endif // ALIEN_FAN_SDK
 
-FanControl* pCtrlr = new FanControl();
+int32_t testfct()
+{
+    return 42;
+}
