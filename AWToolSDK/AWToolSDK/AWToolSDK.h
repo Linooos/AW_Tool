@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #define ALIEN_FAN_SDK
-#ifdef ALIEN_FAN_SDK
+#ifdef ALIEN_FAN_SDK //SDK中添加风扇控制函数
 #include "alienfan-SDK.h"
 //#include <string>
 
@@ -20,7 +20,7 @@ public:
 	~FanControl();
 	AlienFan_SDK::Control* controller;
 	BOOL isAPIValid;
-	CHAR checkAPI(byte type);
+    LONG checkAPI(byte type);
 
 	//get
 
@@ -42,7 +42,7 @@ public:
 	
 	// TODO: 在此处添加方法。
 };
-#endif
+#endif //ALIEN_FAN_SDK
 
 int32_t testfct();
 //AWTOOLSDK_API int fnAWToolSDK(void);

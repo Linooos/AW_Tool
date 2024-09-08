@@ -128,7 +128,10 @@ namespace AlienFan_SDK {
 #endif
 			// need to get instance
 			IEnumWbemClassObject* enum_obj;
-
+#ifdef _DEBUG
+			printf("AWCC WMI:%d", m_WbemServices->CreateInstanceEnum((BSTR)L"AWCCWmiMethodFunction", WBEM_FLAG_FORWARD_ONLY, NULL, &enum_obj) == S_OK);
+#endif
+			
 			if (m_WbemServices->CreateInstanceEnum((BSTR)L"AWCCWmiMethodFunction", WBEM_FLAG_FORWARD_ONLY, NULL, &enum_obj) == S_OK) {
 				IWbemClassObject* spInstance;
 				ULONG uNumOfInstances = 0;

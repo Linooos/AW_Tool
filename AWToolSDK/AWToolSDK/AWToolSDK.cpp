@@ -7,7 +7,13 @@
 FanControl::FanControl()
 {
     this->controller = new AlienFan_SDK::Control();
+#ifdef _DEBUG
+    printf("Run controller probe!\n");
+#endif // 
     this->isAPIValid = this->controller->Probe();
+#ifdef _DEBUG
+    printf("SDK initialize complete!\n");
+#endif // 
 }
 
 FanControl::~FanControl()
@@ -15,7 +21,7 @@ FanControl::~FanControl()
     this->controller->~Control();
 }
 
-CHAR FanControl::checkAPI(byte type)
+LONG FanControl::checkAPI(byte type)
 {
     if (type == isAlienware)
         return this->controller->isAlienware;
