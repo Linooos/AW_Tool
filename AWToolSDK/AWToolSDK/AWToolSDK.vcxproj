@@ -74,11 +74,13 @@
     <TargetExt>.pyd</TargetExt>
     <IncludePath>$(MSBuildStartupDirectory)\pybind11\include;$(PyAWTool)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(PyAWTool)\libs;$(LibraryPath)</LibraryPath>
+    <TargetName>py$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.pyd</TargetExt>
     <IncludePath>$(MSBuildStartupDirectory)\pybind11\include;$(PyAWTool)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(PyAWTool)\libs;$(LibraryPath)</LibraryPath>
+    <TargetName>py$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,11 +116,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;AWTOOLSDK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(PyAWTool)\libs\python3.lib;$(PyAWTool)\libs\python312.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(PyAWTool)\DLLS\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,6 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CONSOLE;AWTOOLSDK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +141,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(PyAWTool)\libs\python3.lib;$(PyAWTool)\libs\python312.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(PyAWTool)\DLLS\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
