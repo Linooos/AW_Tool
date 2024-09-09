@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import QApplication
 import sys
 from ui import AW_menu
 
-
 def startUi():
     app = QApplication(sys.argv)
 
