@@ -123,8 +123,9 @@ class SiOptionCardPlane(ABCSiOptionCardPlane):
         self.title.setFixedHeight(32)
 
         self.header().setAlignment(Qt.AlignCenter)
-        self.header().setFixedHeight(64)
+        #self.header().setFixedHeight(64)
         self.header().addWidget(self.title, "left")
+        #self.header().setFixedHeight(120)
 
     def reloadStyleSheet(self):
         super().reloadStyleSheet()

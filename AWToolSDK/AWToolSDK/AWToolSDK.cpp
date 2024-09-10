@@ -68,13 +68,17 @@ LONG FanControl::getFanRPM(BYTE index)
 {
     return this->controller->GetFanRPM(index);
 }
+LONG FanControl::getFanBoost(BYTE index)
+{
+    return this->controller->GetFanBoost(index);
+}
 LONG FanControl::unlockFanControl()
 {
     return this->controller->Unlock();
 }
-DWORD FanControl::setFan(BYTE index, BYTE value)
+DWORD FanControl::setFan(BYTE index, DWORD value)
 {
-    return this->controller->SetFanBoost(index,value);
+    return this->controller->SetFanBoost(index,(BYTE)(value & 0xff));
 }
 #endif // ALIEN_FAN_SDK
 

@@ -52,6 +52,12 @@ public:
 	/// <returns>转速</returns>
 	LONG getFanRPM(BYTE index);
 	/// <summary>
+	/// 获取指定风扇的Boost
+	/// </summary>
+	/// <param name="fanid">由getFan()->id获取</param>
+	/// <returns>转速</returns>
+	LONG getFanBoost(BYTE index);
+	/// <summary>
 	/// 解锁自行控制风扇
 	/// </summary>
 	/// <returns>-1：错误，0：成功</returns>
@@ -79,7 +85,7 @@ public:
 	/// <param name="fanid">风扇id</param>
 	/// <param name="value">转速的映射值，0-255范围</param>
 	/// <returns></returns>
-	DWORD setFan(BYTE index, BYTE value);
+	DWORD setFan(BYTE index, DWORD value);
 
 
 
