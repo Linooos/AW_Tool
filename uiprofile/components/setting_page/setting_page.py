@@ -183,13 +183,3 @@ class SettingPage(SiPage):
         # Set SiTitledWidgetGroup object as the attachment of the page's scroll area
         self.setAttachment(self.titled_widget_group)
 
-    def addFucWidge(self, checked, str):
-        if checked:
-            if str == "fan":
-                # 开启风扇控制
-                self.f = SettingLinerCard(self)
-                self.f.setTitle("ALIENWARE功耗控制", "->激活风扇及功耗模式模块")
-                self.f.load('uiprofile/components/setting_page/AWCC.svg')
-                self.titled_widget_group.addWidget(self.f)
-        else:
-            pass

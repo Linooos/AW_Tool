@@ -1,12 +1,9 @@
 
-import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QObject, QEvent
-
-from siui.core.globals import SiGlobal
-import siui.templates.application.application_mini_window as mini_window
-class TrayTaskWindow(mini_window.SiliconApplication):
+from uiprofile.miniApp import miniApp
+class TrayTaskWindow(miniApp):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.tray_icon = QSystemTrayIcon(self)
