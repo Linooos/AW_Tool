@@ -1,6 +1,6 @@
 from siui.templates.application.components.layer.layer import SiLayer
-from siui.components import SiLabel, SiDenseVContainer, SiDenseHContainer, SiPixLabel, SiSimpleButton, DragSiLabel, \
-    SiSvgLabel
+
+from siui.components import SiLabel, SiDenseVContainer, SiDenseHContainer, SiPixLabel,SiSimpleButton,SiSvgLabel
 from PyQt5.QtCore import Qt
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
@@ -76,16 +76,16 @@ class miniMenuLayer(SiLayer):
 
         self.page_view = PageViewModify(self)
 
-        self.drag_label = DragSiLabel(self)
-        self.drag_label.setFixedSize(self.window().width(), 40)
-        self.background_label.setFixedStyleSheet("")
-        self.background_label.setFixedStyleSheet("border-radius: 5px")
-        self.drag_label.setAlignment(Qt.AlignCenter)
+        # self.drag_label = DragSiLabel(self)
+        # self.drag_label.setFixedSize(self.window().width(), 40)
+        # self.background_label.setFixedStyleSheet("")
+        # self.background_label.setFixedStyleSheet("border-radius: 5px")
+        # self.drag_label.setAlignment(Qt.AlignCenter)
         #self.drag_label.setColor(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F))
 
         # <- 添加到垂直容器
         self.app_top_tip.addWidget(self.container_title, side='left', index=0)
-        self.app_top_tip.addWidget(self.drag_label, side='left')
+        #self.app_top_tip.addWidget(self.drag_label, side='left')
         self.app_top_tip.addWidget(hide_button_container, side='right')
         self.container_title_and_content.addWidget(self.app_top_tip)
         self.container_title_and_content.addWidget(self.page_view, side="bottom")

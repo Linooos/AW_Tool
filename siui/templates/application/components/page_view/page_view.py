@@ -15,8 +15,8 @@ class PageButton(SiToggleButton):
 
         # 设置自身样式
         self.setBorderRadius(6)
-        #self.colorGroup().assign(SiColor.BUTTON_OFF, "#00FFFFFF")
-        #self.colorGroup().assign(SiColor.BUTTON_ON, "#10FFFFFF")
+        self.colorGroup().assign(SiColor.BUTTON_OFF, "#30000000")
+        self.colorGroup().assign(SiColor.BUTTON_ON, "#90FFFFFF")
 
         # 创建高光指示条，用于指示被选中
         self.active_indicator = SiLabel(self)
@@ -90,11 +90,11 @@ class PageNavigator(ABCSiNavigationBar):
         # 创建容器用于放置按钮
         self.container = SiDenseVContainer(self)
         self.container.setSpacing(8)
-        self.container.setAlignment(Qt.AlignCenter)
+        self.container.setShrinking(False)
+        self.container.setAlignment(Qt.AlignHCenter)
 
         # 所有按钮
         self.buttons = []
-        self.sideList = []
 
     def addPageButton(self, svg_data, hint, func_when_active, side="top"):
         """
@@ -104,70 +104,25 @@ class PageNavigator(ABCSiNavigationBar):
         :param func_when_active: 当被激活时调用的函数
         :param side: 添加在哪一侧
         """
-        new_page_button = PageButton(self)
+        new_page_button = PageButton(self.container)
         new_page_button.setIndex(self.maximumIndex())
-        new_page_button.setStyleSheet("background-color: {};".format(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F)))
-
+        new_page_button.setStyleSheet("background-color: #20FF0000")
         new_page_button.resize(40, 40)
         new_page_button.setHint(hint)
         new_page_button.attachment().setSvgSize(20, 20)
         new_page_button.attachment().load(svg_data)
         new_page_button.activated.connect(func_when_active)
+        new_page_button.show()
 
         # 绑定索引切换信号，当页面切换时，会使按钮切换为 checked 状态
         self.indexChanged.connect(new_page_button.on_index_changed)
-        self.buttons.append(new_page_button)
-        self.sideList.append(side)
 
-        # 新建垂直容器
-        container = SiDenseVContainer(self)
-        container.setSpacing(8)
-        container.setAlignment(Qt.AlignCenter)
-
-        # 重新将button加入布局
-        for i in range(len(self.buttons)):
-            self.buttons[i].setParent(None)
-            container.addWidget(self.buttons[i], side=self.sideList[i])
-
-        # 删除原布局
-        self.container.deleteLater()
-
-        # 添加新建布局
-        self.container = container
-        self.container.show()
-
-        # 重新设置标签宽度以解决向左偏移问题
-        self.container.resize(self.size())
-
+        # 新按钮添加到容器中
+        self.container.addWidget(new_page_button, side=side)
+        self.container.arrangeWidget()
         self.setMaximumIndex(self.maximumIndex() + 1)
 
-        return new_page_button
-
-    def removePageButton(self, button):
-        self.buttons.remove(button)
-
-        # 新建垂直容器
-        container = SiDenseVContainer(self)
-        container.setSpacing(8)
-        container.setAlignment(Qt.AlignCenter)
-
-        # 重新将button加入布局
-        for i in range(len(self.buttons)):
-            self.buttons[i].setParent(None)
-            container.addWidget(self.buttons[i], side=self.sideList[i])
-
-        # 删除原布局
-        self.container.deleteLater()
-
-        # 添加新建布局
-        self.container = container
-        self.container.show()
-
-        # 重新设置标签宽度以解决向左偏移问题
-        self.container.resize(self.size())
-
-        self.setMaximumIndex(self.maximumIndex() - 1)
-
+        self.buttons.append(new_page_button)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -185,7 +140,7 @@ class StackedContainerWithShowUpAnimation(SiStackedContainer):
         self.widgets[index].moveTo(0, 0)
 
 
-class PageView(SiDenseVContainer):
+class PageView(SiDenseHContainer):
     """
     页面视图，包括左侧的导航栏和右侧的页面
     """
@@ -222,26 +177,19 @@ class PageView(SiDenseVContainer):
         :param side: 按钮添加在哪一侧
         """
         self.stacked_container.addWidget(page)
-        button = self.page_navigator.addPageButton(
+        self.page_navigator.addPageButton(
             icon,
             hint,
             self._get_page_toggle_method(self.stacked_container.widgetsAmount() - 1),
             side
         )
 
-        return button
-
-    def removePage(self,button,page):
-        self.stacked_container.removeWidget(page)
-        self.page_navigator.removePageButton(button)
-
-
     def reloadStyleSheet(self):
         super().reloadStyleSheet()
         self.stacked_container.setStyleSheet(
             """
             #stacked_container {{
-                border-top-left-radius:10px; border-bottom-right-radius: 10px;
+                border-top-left-radius:6px; border-bottom-right-radius: 8px;
                 background-color: {}; border:1px solid {};
             }}
             """.format(SiGlobal.siui.colors["INTERFACE_BG_B"], SiGlobal.siui.colors["INTERFACE_BG_C"])

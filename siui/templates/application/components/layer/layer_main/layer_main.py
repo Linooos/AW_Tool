@@ -1,9 +1,6 @@
-import os
-
 from PyQt5.QtCore import Qt
-import sys
-from siui.components import SiLabel, SiDenseVContainer, SiDenseHContainer, SiPixLabel, SiSimpleButton, DragSiLabel, \
-    SiSvgLabel
+
+from siui.components import SiLabel, SiDenseVContainer, SiDenseHContainer, SiPixLabel
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
 from siui.core.silicon import Si
@@ -87,4 +84,3 @@ class LayerMain(SiLayer):
         self.container_title_and_content.resize(event.size())
         self.page_view.resize(event.size().width(), event.size().height() - 64)
         self.dim_.resize(event.size())
-

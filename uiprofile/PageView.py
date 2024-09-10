@@ -1,9 +1,96 @@
-from siui.templates.application.components.page_view.page_view import PageView
+from siui.templates.application.components.page_view.page_view import PageView, PageNavigator,PageButton
 
+from uiprofile.Container import SiStackedContainerModify
+from siui.components.widgets.container import SiDenseHContainer
+
+class PageNavigatorModify(PageNavigator):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def addPageButton(self, svg_data, hint, func_when_active, side="top"):
+        """
+        添加页面按钮
+        :param svg_data: 按钮的 svg 数据
+        :param hint: 工具提示
+        :param func_when_active: 当被激活时调用的函数
+        :param side: 添加在哪一侧
+        """
+        new_page_button = PageButton(self.container)
+        new_page_button.setIndex(self.maximumIndex())
+        new_page_button.setStyleSheet("background-color: #20FF0000")
+        new_page_button.resize(40, 40)
+        new_page_button.setHint(hint)
+        new_page_button.attachment().setSvgSize(20, 20)
+        new_page_button.attachment().load(svg_data)
+        new_page_button.activated.connect(func_when_active)
+        new_page_button.show()
+        new_page_button.reloadStyleSheet()
+
+        # 绑定索引切换信号，当页面切换时，会使按钮切换为 checked 状态
+        self.indexChanged.connect(new_page_button.on_index_changed)
+
+        # 新按钮添加到容器中
+        self.container.addWidget(new_page_button, side=side)
+        self.container.arrangeWidget()
+        self.setMaximumIndex(self.maximumIndex() + 1)
+
+        self.buttons.append(new_page_button)
+        return new_page_button
+
+    def removePageButton(self, button):
+        self.buttons.remove(button)
+        self.container.removeWidget(button)
+
+        # # 新建垂直容器
+        # container = SiDenseVContainer(self)
+        # container.setSpacing(8)
+        # container.setAlignment(Qt.AlignCenter)
+        #
+        # # 重新将button加入布局
+        # for i in range(len(self.buttons)):
+        #     self.buttons[i].setParent(None)
+        #     container.addWidget(self.buttons[i], side=self.sideList[i])
+        #
+        # # 删除原布局
+        # self.container.deleteLater()
+        #
+        # # 添加新建布局
+        # self.container = container
+        # self.container.show()
+        #
+        # # 重新设置标签宽度以解决向左偏移问题
+        # self.container.resize(self.size())
+
+        self.setMaximumIndex(self.maximumIndex() - 1)
+
+class StackedContainerWithShowUpAnimationModify(SiStackedContainerModify):
+    def setCurrentIndex(self, index: int):
+        super().setCurrentIndex(index)
+
+        self.widgets[index].animationGroup().fromToken("move").setFactor(1 / 5)
+        self.widgets[index].move(0, 64)
+        self.widgets[index].moveTo(0, 0)
 
 class PageViewModify(PageView):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, *kwargs)
+        SiDenseHContainer.__init__(self,*args, **kwargs)
+        # 清空自己的样式表防止继承
+        self.setStyleSheet("")
+
+        self.setSpacing(0)
+        self.setAdjustWidgetsSize(True)
+
+        # 创建导航栏
+        self.page_navigator = PageNavigatorModify(self)
+        self.page_navigator.setFixedWidth(16 + 24 + 16)
+
+        # 创建堆叠容器
+        self.stacked_container = StackedContainerWithShowUpAnimationModify(self)
+        self.stacked_container.setObjectName("stacked_container")
+
+        # <- 添加到水平布局
+        self.addWidget(self.page_navigator)
+        self.addWidget(self.stacked_container)
 
     def addPage(self, page, icon, hint, side="top"):
         """
