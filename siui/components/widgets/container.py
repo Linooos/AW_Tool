@@ -576,6 +576,20 @@ class SiStackedContainer(SiLabel):
         if len(self.widgets) == 1:
             self.setCurrentIndex(0)
 
+
+    def removeWidget(self, widget):
+        """
+        去除传入子控件，但不delete
+        :param widget: 子控件
+        """
+        if widget in self.widgets:
+            widget.setParent(None)
+            widget.hide()
+            self.widgets.remove(widget)
+            # if len(self.widgets) == 1:
+            #     self.setCurrentIndex(0)
+
+
     def currentIndex(self):
         """
         获取当前索引

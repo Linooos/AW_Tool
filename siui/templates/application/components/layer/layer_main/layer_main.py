@@ -2,13 +2,13 @@ import os
 
 from PyQt5.QtCore import Qt
 import sys
-from siui.components import SiLabel, SiDenseVContainer, SiDenseHContainer, SiPixLabel,SiSimpleButton,DragSiLabel,SiSvgLabel
+from siui.components import SiLabel, SiDenseVContainer, SiDenseHContainer, SiPixLabel, SiSimpleButton, DragSiLabel, \
+    SiSvgLabel
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
 from siui.core.silicon import Si
 from siui.templates.application.components.page_view import PageView
 from ..layer import SiLayer
-
 
 
 class LayerMain(SiLayer):
@@ -105,22 +105,21 @@ class miniMenuLayer(SiLayer):
 
         #关闭按钮
         self.hide_button = SiSimpleButton(self)
-        self.hide_button.setFixedSize(28,28)
+        self.hide_button.setFixedSize(35, 35)
         self.app_top_tip.setAlignment(Qt.AlignCenter)
         self.hide_button.attachment().load("./uiprofile/icon/minus-small.svg")
         self.hide_button.setHint("quit")
-        self.hide_button.clicked.connect(lambda :self.window().hide())
+        self.hide_button.clicked.connect(lambda: self.window().hide())
         hide_button_container = SiDenseVContainer(self)
         hide_button_container.setAlignment(Qt.AlignCenter)
-        hide_button_container.setFixedSize(50,40)
-        hide_button_container.addWidget(self.hide_button,side='bottom')
-
+        hide_button_container.setFixedSize(50, 40)
+        hide_button_container.addWidget(self.hide_button, side='bottom')
 
         # -> 垂直容器，上方是标题，下方是窗口内容
         self.container_title_and_content = SiDenseVContainer(self)
         self.container_title_and_content.setSpacing(0)
         self.container_title_and_content.setAdjustWidgetsSize(True)
-        self.container_title_and_content.setContentsMargins(0,0,0,0)
+        self.container_title_and_content.setContentsMargins(0, 0, 0, 0)
 
         # -> 标题栏处的水平容器，左侧是图标和标题，右侧是操作按钮
         self.container_title = SiDenseHContainer(self)
@@ -131,12 +130,12 @@ class miniMenuLayer(SiLayer):
         # 应用内图标
         self.app_icon = SiSvgLabel(self)
         self.app_icon.resize(40, 40)
-        self.app_icon.setSvgSize(28,28)
+        self.app_icon.setSvgSize(28, 28)
         self.app_icon.load("./uiprofile/icon/AWCC.svg")
         app_icon_container = SiDenseVContainer(self)
         app_icon_container.setAlignment(Qt.AlignCenter)
-        app_icon_container.setFixedSize(50,50)
-        app_icon_container.addWidget(self.app_icon,side='bottom')
+        app_icon_container.setFixedSize(50, 50)
+        app_icon_container.addWidget(self.app_icon, side='bottom')
 
         # 应用标题
         self.app_title = SiLabel(self)
@@ -146,8 +145,8 @@ class miniMenuLayer(SiLayer):
         self.app_title.setText("Silicon 应用模版")
         app_title_container = SiDenseVContainer(self)
         app_title_container.setAlignment(Qt.AlignCenter)
-        app_title_container.setFixedSize(110,40)
-        app_title_container.addWidget(self.app_title,side='bottom')
+        app_title_container.setFixedSize(110, 40)
+        app_title_container.addWidget(self.app_title, side='bottom')
 
         self.container_title.addPlaceholder(2)
         self.container_title.addPlaceholder(5)
@@ -156,9 +155,7 @@ class miniMenuLayer(SiLayer):
         self.container_title.addWidget(app_title_container)
         self.container_title.setFixedHeight(120)
 
-
         self.page_view = PageView(self)
-
 
         self.drag_label = DragSiLabel(self)
         self.drag_label.setFixedSize(self.window().width(), 40)
@@ -167,14 +164,12 @@ class miniMenuLayer(SiLayer):
         self.drag_label.setAlignment(Qt.AlignCenter)
         #self.drag_label.setColor(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F))
 
-
         # <- 添加到垂直容器
-        self.app_top_tip.addWidget(self.container_title,side='left',index=0)
-        self.app_top_tip.addWidget(self.drag_label,side='left')
-        self.app_top_tip.addWidget(hide_button_container,side='right')
+        self.app_top_tip.addWidget(self.container_title, side='left', index=0)
+        self.app_top_tip.addWidget(self.drag_label, side='left')
+        self.app_top_tip.addWidget(hide_button_container, side='right')
         self.container_title_and_content.addWidget(self.app_top_tip)
-        self.container_title_and_content.addWidget(self.page_view,side="bottom")
-
+        self.container_title_and_content.addWidget(self.page_view, side="bottom")
 
         # 隐藏阴影层，因为没有任何用
         self.dim_.hide()
@@ -197,7 +192,10 @@ class miniMenuLayer(SiLayer):
         :param hint: 页面按钮的工具提示
         :param side: 页面按钮置于哪一侧
         """
-        self.page_view.addPage(page, icon, hint, side)
+        return self.page_view.addPage(page, icon, hint, side)
+
+    def removePage(self, button, page):
+        self.page_view.removePage(button, page)
 
     def setPage(self, index):
         """ Set current page by index """

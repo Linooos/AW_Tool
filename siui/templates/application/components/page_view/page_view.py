@@ -94,6 +94,7 @@ class PageNavigator(ABCSiNavigationBar):
 
         # 所有按钮
         self.buttons = []
+        self.sideList = []
 
     def addPageButton(self, svg_data, hint, func_when_active, side="top"):
         """
@@ -105,9 +106,8 @@ class PageNavigator(ABCSiNavigationBar):
         """
         new_page_button = PageButton(self)
         new_page_button.setIndex(self.maximumIndex())
-        #new_page_button.setStyleSheet("background-color: {};".format(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F)))
-        new_page_button.setStyleSheet(
-            "background-color: #2d2d2d")
+        new_page_button.setStyleSheet("background-color: {};".format(self.colorGroup().fromToken(SiColor.INTERFACE_BG_F)))
+
         new_page_button.resize(40, 40)
         new_page_button.setHint(hint)
         new_page_button.attachment().setSvgSize(20, 20)
@@ -116,12 +116,58 @@ class PageNavigator(ABCSiNavigationBar):
 
         # 绑定索引切换信号，当页面切换时，会使按钮切换为 checked 状态
         self.indexChanged.connect(new_page_button.on_index_changed)
+        self.buttons.append(new_page_button)
+        self.sideList.append(side)
 
-        # 新按钮添加到容器中
-        self.container.addWidget(new_page_button, side=side)
+        # 新建垂直容器
+        container = SiDenseVContainer(self)
+        container.setSpacing(8)
+        container.setAlignment(Qt.AlignCenter)
+
+        # 重新将button加入布局
+        for i in range(len(self.buttons)):
+            self.buttons[i].setParent(None)
+            container.addWidget(self.buttons[i], side=self.sideList[i])
+
+        # 删除原布局
+        self.container.deleteLater()
+
+        # 添加新建布局
+        self.container = container
+        self.container.show()
+
+        # 重新设置标签宽度以解决向左偏移问题
+        self.container.resize(self.size())
+
         self.setMaximumIndex(self.maximumIndex() + 1)
 
-        self.buttons.append(new_page_button)
+        return new_page_button
+
+    def removePageButton(self, button):
+        self.buttons.remove(button)
+
+        # 新建垂直容器
+        container = SiDenseVContainer(self)
+        container.setSpacing(8)
+        container.setAlignment(Qt.AlignCenter)
+
+        # 重新将button加入布局
+        for i in range(len(self.buttons)):
+            self.buttons[i].setParent(None)
+            container.addWidget(self.buttons[i], side=self.sideList[i])
+
+        # 删除原布局
+        self.container.deleteLater()
+
+        # 添加新建布局
+        self.container = container
+        self.container.show()
+
+        # 重新设置标签宽度以解决向左偏移问题
+        self.container.resize(self.size())
+
+        self.setMaximumIndex(self.maximumIndex() - 1)
+
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -176,12 +222,19 @@ class PageView(SiDenseVContainer):
         :param side: 按钮添加在哪一侧
         """
         self.stacked_container.addWidget(page)
-        self.page_navigator.addPageButton(
+        button = self.page_navigator.addPageButton(
             icon,
             hint,
             self._get_page_toggle_method(self.stacked_container.widgetsAmount() - 1),
             side
         )
+
+        return button
+
+    def removePage(self,button,page):
+        self.stacked_container.removeWidget(page)
+        self.page_navigator.removePageButton(button)
+
 
     def reloadStyleSheet(self):
         super().reloadStyleSheet()
