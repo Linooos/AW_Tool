@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
 from siui.core.silicon import Si
-from siui.templates.application.components.page_view import PageView
+from uiprofile.PageView import PageViewModify
 
 
 class miniMenuLayer(SiLayer):
@@ -74,7 +74,7 @@ class miniMenuLayer(SiLayer):
         self.container_title.addWidget(app_title_container)
         self.container_title.setFixedHeight(120)
 
-        self.page_view = PageView(self)
+        self.page_view = PageViewModify(self)
 
         self.drag_label = DragSiLabel(self)
         self.drag_label.setFixedSize(self.window().width(), 40)
