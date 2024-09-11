@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, Q
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QObject, QEvent
 from uiprofile.miniApp import miniApp
+from SDK import saveConfig
 class TrayTaskWindow(miniApp):
     windowState = True
     def __init__(self, *args, **kwargs):
@@ -25,6 +26,10 @@ class TrayTaskWindow(miniApp):
         self.tray_icon.show()
 
         self.installEventFilter(self)
+
+    def closeEvent(self, event):
+        saveConfig()
+
 
     def show_window(self):
         self.window().show()

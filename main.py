@@ -16,9 +16,10 @@ if __name__ == "__main__":
     sys.path.append(os.path.split(os.path.abspath(__file__))[0] + "\\uiprofile")
 
     # #initSDk
-    # from server import fanCtrl,fanCount,fanCfgs,initSDK
-    # initSDK()
+
+
 
     # load UI
     import uiprofile.window as window
+    import SDK
     window.startUi()

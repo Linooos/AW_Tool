@@ -125,7 +125,7 @@ BYTE PowerControl::getPower(DWORD index)
     return this->controller->powers[index];
 }
 
-BYTE PowerControl::getPowersCount(DWORD index)
+BYTE PowerControl::getPowersCount()
 {
     return this->controller->powers.size();
 }

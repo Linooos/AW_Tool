@@ -1,0 +1,19 @@
+{
+    "globalSetting": {
+        "powerName": {
+            "0": "\u81ea\u5b9a\u4e49\u6a21\u5f0f",
+            "160": "\u5747\u8861\u6a21\u5f0f",
+            "161": "\u6027\u80fd\u6a21\u5f0f",
+            "162": "\u7535\u6c60\u6a21\u5f0f",
+            "163": "\u5b89\u9759\u6a21\u5f0f",
+            "164": "\u6ee1\u901f\u6a21\u5f0f"
+        },
+        "fanPageEnable": true
+    },
+    "fanPage": {
+        "0": 30,
+        "1": 7,
+        "2": 11,
+        "3": 43
+    }
+}

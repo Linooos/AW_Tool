@@ -104,7 +104,7 @@ public:
 	 /// <param name="index"></param>
 	 /// <returns></returns>
 	 BYTE getPower(DWORD index);
-	 BYTE getPowersCount(DWORD index);
+	 BYTE getPowersCount();
 	 BYTE getCurPower(bool isRtnRaw);
 
 	 //set

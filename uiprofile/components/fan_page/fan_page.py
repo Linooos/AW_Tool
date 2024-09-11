@@ -1,8 +1,8 @@
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QSlider
 from SiliconUI import SiSlider
 
-import server
+import SDK
 from siui.components import SiSliderH
 from siui.components.combobox.combobox import SiComboBox
 from siui.components.option_card import SiOptionCardPlane
@@ -14,7 +14,7 @@ from siui.core.globals import SiGlobal
 from siui.core.silicon import Si
 
 from siui.components.widgets.container import SiDenseHContainer, SiDenseVContainer
-from server import fanCount, getRPM, setFansBoost, fanCfgs
+from SDK import fanCount, getRPM, setFansBoost, fanCfgs
 
 
 class FanInfoLayout(SiDenseHContainer):
@@ -31,24 +31,21 @@ class FanInfoLayout(SiDenseHContainer):
         self.fanTitle.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         self.fanTitle.setFixedHeight(30)
 
-
         self.fanType = SiLabel(self)
         #self.fanType.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
         self.fanType.setFont(SiGlobal.siui.fonts["S_BOLD"])
         #self.fanType.setColor(SiGlobal.siui.colors["TEXT_C"])
-        self.fanType.setAlignment( Qt.AlignRight )
+        self.fanType.setAlignment(Qt.AlignRight)
         self.fanType.setFixedWidth(90)
         self.fanType.setFixedHeight(15)
-
 
         self.fanContent = SiLabel(self)
         #self.fanContent.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
         self.fanContent.setFont(SiGlobal.siui.fonts["S_BOLD"])
         self.fanContent.setStyleSheet("color: {}".format(SiGlobal.siui.colors["TEXT_E"]))
-        self.fanContent.setAlignment( Qt.AlignRight )
+        self.fanContent.setAlignment(Qt.AlignRight)
         self.fanContent.setFixedWidth(90)
         self.fanContent.setFixedHeight(15)
-
 
         info_container = SiDenseVContainer(self)
         info_container.setSpacing(0)
@@ -58,21 +55,32 @@ class FanInfoLayout(SiDenseHContainer):
         info_container.setFixedHeight(30)
 
         self.addWidget(self.fanTitle)
-        self.addWidget(info_container,side="right")
+        self.addWidget(info_container, side="right")
         self.setFixedHeight(30)
         #self.setFixedWidth(350)
         self.setAlignment(Qt.AlignTop)
         #self.setColor("#000000")
 
 
-
-
 class FanSlider(SiSliderH):
+    sliderList = []
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fanid = None
         self.auto_update = True
         self.valueChanged.connect(self.on_slider_value_changed)
+        self.qtimer = None
+        self.sliderList.append(self)
+
+    def initConfig(self):
+        if self.fanid is None:
+            return
+        try:
+            self.setValue(SDK.globalConfig["fanPage"][f'{self.fanid}'])
+        except KeyError:
+            if not SDK.globalConfig.get("fanPage"):
+                SDK.globalConfig["fanPage"] = {}
+            SDK.globalConfig["fanPage"][f'{self.fanid}'] = 0
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -86,8 +94,30 @@ class FanSlider(SiSliderH):
 
     def on_slider_value_changed(self):
         #if not self.auto_update:
-        pass
         setFansBoost(self.fanid, self.value())
+        if self.fanid is not None:
+            try:
+                SDK.globalConfig["fanPage"][f'{self.fanid}'] = self.value()
+            except KeyError:
+                if not SDK.globalConfig.get("fanPage"):
+                    SDK.globalConfig["fanPage"] = {}
+                SDK.globalConfig["fanPage"][f'{self.fanid}'] = self.value()
+            self.saveConfig()
+
+    def saveConfig(self):
+        """ 延迟保存文件"""
+        #SDK.saveConfig()
+        def saveAndDelTimer(self):  #5秒后，运行停止结束计时并保存配置
+            self.qtimer.stop()
+            self.qtimer.deleteLater()
+            self.qtimer = None
+            SDK.saveConfig()
+
+        # 当Qtimer=None时，新建一个qtimer开始计时
+        if self.qtimer is None:
+            self.qtimer = QTimer(self)
+            self.qtimer.timeout.connect(lambda: saveAndDelTimer(self))
+            self.qtimer.start(5000)
 
 
 class FanCardContainer(SiOptionCardPlane):
@@ -149,6 +179,7 @@ class FanCardContainer(SiOptionCardPlane):
             fanSlider.setMinimum(0)
             fanSlider.setMaximum(100)
             fanSlider.fanid = i
+            fanSlider.initConfig()
             fanSlider.on_slider_value_changed()
 
             fanContainer = SiDenseVContainer(self)
