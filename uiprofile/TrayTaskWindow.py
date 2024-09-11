@@ -4,6 +4,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QObject, QEvent
 from uiprofile.miniApp import miniApp
 class TrayTaskWindow(miniApp):
+    windowState = True
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.tray_icon = QSystemTrayIcon(self)
@@ -19,6 +20,7 @@ class TrayTaskWindow(miniApp):
         tray_menu.addAction(quit_action)
 
         self.tray_icon.setContextMenu(tray_menu)
+
         self.tray_icon.activated.connect(self.on_tray_icon_activated)
         self.tray_icon.show()
 
@@ -30,10 +32,15 @@ class TrayTaskWindow(miniApp):
         self.activateWindow()
 
     def on_tray_icon_activated(self, reason):
-        if reason == QSystemTrayIcon.Trigger:
+        if reason == QSystemTrayIcon.DoubleClick:
             self.show_window()
+            self.windowState = True
+        if reason == QSystemTrayIcon.Trigger:
+            self.window().hide()
+            self.windowState = False
 
     def eventFilter(self, source, event):
         if event.type() == QEvent.WindowDeactivate:
             self.window().hide()
+            self.windowState = False
         return super().eventFilter(source, event)

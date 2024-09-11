@@ -49,7 +49,9 @@ if __name__ == "__main__":
     #     #fanCtrl.setFan(i, 0)
     # g = aw.Graphic_Controller()
     # print(g.setGraphicOptimus(True))
-    for i in fanCfgs:
-        print(i.type)
-    pass
+    # for i in fanCfgs:
+    #     print(i.type)
+    # pass
+    for i in range(fanCount):
+        print(fanCtrl.getFanBoost(i))
 

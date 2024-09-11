@@ -188,7 +188,7 @@ class FanPage(SiPage):
 
         # 侧边栏信息
         with self.titled_widgets_group as group:
-            group.addPlaceholder(12)
+            group.addPlaceholder(1)
             self.side_messages = FanCardContainer(self)
             group.addTitle("风扇控制")
 

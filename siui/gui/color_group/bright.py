@@ -8,9 +8,9 @@ class BrightColorGroup(SiColorGroup):
     def __init__(self):
         super().__init__()
 
-        self.assign(SiColor.THEME, "#2accb3")
+        self.assign(SiColor.THEME, "#ff848b")
         self.assign(SiColor.THEME_TRANSITION_A, "#2abed8")
-        self.assign(SiColor.THEME_TRANSITION_B, "#2ad98e")
+        self.assign(SiColor.THEME_TRANSITION_B, "#ff7575")
 
         self.assign(SiColor.SVG_NORMAL, "#494f4d")
         self.assign(SiColor.SVG_THEME, "#53857d")
