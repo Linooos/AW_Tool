@@ -61,7 +61,22 @@ PYBIND11_MODULE(pyAWToolSDK, m)
         .def("unlockFanControl", &FanControl::unlockFanControl, "解锁自行控制风扇，切换到自定义电源模式")
         .def("setFan", &FanControl::setFan,u8"设置风扇转速，value指定于0-255")
         .def("getFanBoost", &FanControl::getFanBoost, u8"获取风扇的Boost值");
-
 #endif // ALIEN_FAN_SDK
+#ifdef ALIEN_POWER_SDK
+
+    py::class_<PowerControl>(m, "Power_controller")
+        .def(py::init<>())
+        .def("getPowersCount", &PowerControl::getPowersCount, u8"获取模式数量")
+        .def("getPower", &PowerControl::getPower, u8"获取指定index的模式id")
+        .def("getCurPower", &PowerControl::getCurPower, u8"获取当前功耗模式")
+        .def("setPower", &PowerControl::setPower, u8"设置功耗模式，isRaw是指输入的value（true）值是index（false）还是功耗id");
+
+#endif // ALIEN_POWER_SDK
+#ifdef ALIEN_Graphic_SDK
+    py::class_<GraphicControl>(m, "Graphic_Controller")
+        .def(py::init<>())
+        .def("setGraphicOptimus", &GraphicControl::setGraphicOptimus, u8"设置显卡模式");
+#endif
     m.def("testfct", &testfct);
+
 }

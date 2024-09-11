@@ -28,9 +28,9 @@ class BrightColorGroup(SiColorGroup):
 
         self.assign(SiColor.TEXT_A, "#171d1b")
         self.assign(SiColor.TEXT_B, "#2e3432")
-        self.assign(SiColor.TEXT_C, "#363d3b")
+        self.assign(SiColor.TEXT_C, "#535353")
         self.assign(SiColor.TEXT_D, "#3f4644")
-        self.assign(SiColor.TEXT_E, "#494f4d")
+        self.assign(SiColor.TEXT_E, "#787878")
         self.assign(SiColor.TEXT_THEME, "#237165")
 
         self.assign(SiColor.SIDE_MSG_FLASH, "#90FFFFFF")

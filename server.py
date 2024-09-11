@@ -44,7 +44,12 @@ print("initial SDK")
 initSDK()
 
 if __name__ == "__main__":
-    for i in range(fanCount):
-        setFansBoost(i,0)
-        #fanCtrl.setFan(i, 0)
+    # for i in range(fanCount):
+    #     setFansBoost(i,0)
+    #     #fanCtrl.setFan(i, 0)
+    # g = aw.Graphic_Controller()
+    # print(g.setGraphicOptimus(True))
+    for i in fanCfgs:
+        print(i.type)
+    pass
 

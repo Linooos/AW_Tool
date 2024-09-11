@@ -1,4 +1,5 @@
 from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtWidgets import QWidget
 from SiliconUI import SiSlider
 
 import server
@@ -12,8 +13,58 @@ from siui.components.widgets import SiLabel
 from siui.core.globals import SiGlobal
 from siui.core.silicon import Si
 
-from siui.components.widgets.container import SiDividedHContainer, SiDenseVContainer
-from server import fanCount, getRPM, setFansBoost
+from siui.components.widgets.container import SiDenseHContainer, SiDenseVContainer
+from server import fanCount, getRPM, setFansBoost, fanCfgs
+
+
+class FanInfoLayout(SiDenseHContainer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #标题
+        self.setParent(args[0])
+        self.fanTitle = SiLabel(self)
+        self.fanTitle.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
+        self.fanTitle.setFont(SiGlobal.siui.fonts["M_BOLD"])
+        self.fanTitle.setStyleSheet("color: {}".format(SiGlobal.siui.colors["TEXT_E"]))
+        #self.fanTitle.setStyleSheet("color: #34f434")
+        #self.fanTitle.setColor(SiGlobal.siui.colors["TEXT_C"])
+        self.fanTitle.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        self.fanTitle.setFixedHeight(30)
+
+
+        self.fanType = SiLabel(self)
+        #self.fanType.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
+        self.fanType.setFont(SiGlobal.siui.fonts["S_BOLD"])
+        #self.fanType.setColor(SiGlobal.siui.colors["TEXT_C"])
+        self.fanType.setAlignment( Qt.AlignRight )
+        self.fanType.setFixedWidth(90)
+        self.fanType.setFixedHeight(15)
+
+
+        self.fanContent = SiLabel(self)
+        #self.fanContent.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
+        self.fanContent.setFont(SiGlobal.siui.fonts["S_BOLD"])
+        self.fanContent.setStyleSheet("color: {}".format(SiGlobal.siui.colors["TEXT_E"]))
+        self.fanContent.setAlignment( Qt.AlignRight )
+        self.fanContent.setFixedWidth(90)
+        self.fanContent.setFixedHeight(15)
+
+
+        info_container = SiDenseVContainer(self)
+        info_container.setSpacing(0)
+        info_container.setAlignment(Qt.AlignRight)
+        info_container.addWidget(self.fanType)
+        info_container.addWidget(self.fanContent)
+        info_container.setFixedHeight(30)
+
+        self.addWidget(self.fanTitle)
+        self.addWidget(info_container,side="right")
+        self.setFixedHeight(30)
+        #self.setFixedWidth(350)
+        self.setAlignment(Qt.AlignTop)
+        #self.setColor("#000000")
+
+
 
 
 class FanSlider(SiSliderH):
@@ -35,9 +86,8 @@ class FanSlider(SiSliderH):
 
     def on_slider_value_changed(self):
         #if not self.auto_update:
-            pass
-            #setFanBoost(self.fanid, self.value())
-
+        pass
+        setFansBoost(self.fanid, self.value())
 
 
 class FanCardContainer(SiOptionCardPlane):
@@ -73,17 +123,23 @@ class FanCardContainer(SiOptionCardPlane):
 
         self.header().addWidget(self.power_container, side='right')
         self.header().adjustSize()
+        self.body().setFixedWidth(400)
 
         # 添加风扇
         for i in range(fanCount):
             #转速显示
-            fanRPM = SiLabel(self)
+            fanRPM = FanInfoLayout(self)
+            fanRPM.setGeometry(0, 0, self.body().width(), fanRPM.height())
             self.fanRPMlist.append(fanRPM)
-            fanRPM.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
-            fanRPM.setFont(SiGlobal.siui.fonts["M_BOLD"])
-            fanRPM.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
-            fanRPM.setFixedHeight(24)
-            fanRPM.setText("<font color='{}'>{}</font>".format(SiGlobal.siui.colors["TEXT_C"], "5650RPM"))
+            #fanRPM.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
+
+            typeName = None
+            if fanCfgs[i].type == 1:
+                typeName = 'CPU/RAM'
+            elif fanCfgs[i].type == 6:
+                typeName = 'GPU'
+            fanRPM.fanTitle.setText(typeName)
+            fanRPM.fanType.setText("FAN#" + str(i + 1))
 
             #滑条设置
             fanSlider = FanSlider(self)
@@ -93,6 +149,7 @@ class FanCardContainer(SiOptionCardPlane):
             fanSlider.setMinimum(0)
             fanSlider.setMaximum(100)
             fanSlider.fanid = i
+            fanSlider.on_slider_value_changed()
 
             fanContainer = SiDenseVContainer(self)
             fanContainer.setSpacing(15)
@@ -105,18 +162,15 @@ class FanCardContainer(SiOptionCardPlane):
         #设置检测计时器
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_slider_value)
-        self.timer.start(500)  # 每隔2秒执行一次
+        self.timer.start(500)
 
         self.auto_update = True
 
     def update_slider_value(self):
         for i in range(fanCount):
             if self.fanSliderlist[i].auto_update:
-                rpm = getRPM(i)
-                self.fanRPMlist[i].setText(
-                    "<font color='{}'>{}</font>".format(SiGlobal.siui.colors["TEXT_C"], str(rpm) + "RPM"))
-                setFansBoost(i,self.fanSliderlist[i].value())
-
+                self.fanRPMlist[i].fanContent.setText(str(getRPM(i)) + "RPM")
+                pass
 
 
 class FanPage(SiPage):

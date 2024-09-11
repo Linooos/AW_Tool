@@ -2,25 +2,47 @@
 //
 #include <pybind11/pybind11.h>
 #include "AWToolSDK.h"
+#include <windows.h>
+
+extern "C" {
+    _declspec(dllexport) DWORD NvOptimusEnablement= 0x00000001;
+}
+
+AlienFan_SDK::Control* controller = nullptr;
+DWORD controllerRefCount = 0;
+AlienFan_SDK::Control* getController() {
+    if (::controller == nullptr) {
+        ::controller = new AlienFan_SDK::Control();
+#ifdef _DEBUG
+        printf("Run controller probe!\n");
+#endif // 
+        controller->Probe();
+#ifdef _DEBUG
+        printf("SDK initialize complete!\n");
+#endif // 
+    } 
+    controllerRefCount += 1;
+    return ::controller;
+}
+void releaseController() {
+    controllerRefCount -= 1;
+    if (controllerRefCount <= 0) {
+        controller->~Control();
+        controller = nullptr;
+    }
+}
 
 #ifdef ALIEN_FAN_SDK
 FanControl::FanControl()
-{
-    this->controller = new AlienFan_SDK::Control();
-#ifdef _DEBUG
-    printf("Run controller probe!\n");
-#endif // 
-    this->isAPIValid = this->controller->Probe();
-#ifdef _DEBUG
-    printf("SDK initialize complete!\n");
-#endif // 
+{   
+    this->controller = getController();
 }
 
 FanControl::~FanControl()
 {
-    this->controller->~Control();
+    releaseController();
+    this->controller = nullptr;
 }
-
 LONG FanControl::checkAPI(byte type)
 {
     if (type == isAlienware)
@@ -86,3 +108,64 @@ int32_t testfct()
 {
     return 42;
 }
+#ifdef ALIEN_POWER_SDK
+PowerControl::PowerControl()
+{
+    this->controller = getController();
+}
+
+PowerControl::~PowerControl()
+{
+    releaseController();
+    this->controller = nullptr;
+}
+
+BYTE PowerControl::getPower(DWORD index)
+{
+    return this->controller->powers[index];
+}
+
+BYTE PowerControl::getPowersCount(DWORD index)
+{
+    return this->controller->powers.size();
+}
+
+BYTE PowerControl::getCurPower(bool isRtnRaw = false)
+{
+    return this->controller->GetPower(isRtnRaw);
+}
+
+LONG PowerControl::setPower(DWORD value, bool isRaw)
+{
+    if (isRaw == true) {
+        return this->controller->SetPower(value);
+    }
+    if (value >= this->controller->powers.size())return -1;
+    return this->controller->SetPower(this->controller->powers[value]);
+}
+#endif
+#ifdef ALIEN_Graphic_SDK
+GraphicControl::GraphicControl()
+{
+}
+
+GraphicControl::~GraphicControl()
+{
+}
+
+void staticSetGraphicOptimus(bool enable) {
+    if (enable = true) {
+        NvOptimusEnablement = 0x00000001;
+    }
+    else
+    {
+        NvOptimusEnablement = 0x00000000;
+    }
+}
+void GraphicControl::setGraphicOptimus(bool enable)
+{
+    staticSetGraphicOptimus(enable);
+}
+#endif
+
+

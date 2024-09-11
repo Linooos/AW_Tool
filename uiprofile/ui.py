@@ -74,15 +74,15 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
         # self.layerMain().addPage(ExampleContainer(self),
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_align_stretch_vertical_filled"),
         #                          hint="容器", side="top")
-        self.layerMain().addPage(ExampleOptionCards(self),
-                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_list_bar_filled"),
-                                 hint="选项卡", side="top")
-        self.layerMain().addPage(ExampleDialogs(self),
-                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_panel_separate_window_filled"),
-                                 hint="消息与二级界面", side="top")
-        self.layerMain().addPage(ExamplePageControl(self),
-                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_wrench_screwdriver_filled"),
-                                 hint="页面控制", side="top")
+        # self.layerMain().addPage(ExampleOptionCards(self),
+        #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_list_bar_filled"),
+        #                          hint="选项卡", side="top")
+        # self.layerMain().addPage(ExampleDialogs(self),
+        #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_panel_separate_window_filled"),
+        #                          hint="消息与二级界面", side="top")
+        # self.layerMain().addPage(ExamplePageControl(self),
+        #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_wrench_screwdriver_filled"),
+        #                          hint="页面控制", side="top")
         # self.layerMain().addPage(ExampleFunctional(self),
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_puzzle_piece_filled"),
         #                          hint="功能组件", side="top")
