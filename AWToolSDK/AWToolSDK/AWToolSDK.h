@@ -10,9 +10,6 @@
 
 extern AlienFan_SDK::Control* controller;
 
-
-
-
 //api的判断类型
 enum{
 	isAlienware = 0,
@@ -65,6 +62,7 @@ public:
 	/// <param name="fanid">由getFan()->id获取</param>
 	/// <returns>转速</returns>
 	LONG getFanBoost(BYTE index);
+	LONG setGMode(bool state);
 	/// <summary>
 	/// 解锁自行控制风扇
 	/// </summary>

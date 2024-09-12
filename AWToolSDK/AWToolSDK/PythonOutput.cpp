@@ -60,7 +60,8 @@ PYBIND11_MODULE(pyAWToolSDK, m)
         .def("getFanRPM", &FanControl::getFanRPM, u8"获取指定风扇的当前转速")
         .def("unlockFanControl", &FanControl::unlockFanControl, "解锁自行控制风扇，切换到自定义电源模式")
         .def("setFan", &FanControl::setFan,u8"设置风扇转速，value指定于0-255")
-        .def("getFanBoost", &FanControl::getFanBoost, u8"获取风扇的Boost值");
+        .def("getFanBoost", &FanControl::getFanBoost, u8"获取风扇的Boost值")
+        .def("setGMode", &FanControl::setGMode, u8"setGMode");
 #endif // ALIEN_FAN_SDK
 #ifdef ALIEN_POWER_SDK
 

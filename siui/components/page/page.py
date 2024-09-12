@@ -1,5 +1,5 @@
+print("00000000000000000")
 from PyQt5.QtCore import Qt
-
 from siui.components.widgets.container import SiDenseHContainer, SiDenseVContainer
 from siui.components.widgets.label import SiLabel
 from siui.components.widgets.scrollarea import SiScrollArea

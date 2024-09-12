@@ -15,11 +15,7 @@ if __name__ == "__main__":
     import sys,os
     sys.path.append(os.path.split(os.path.abspath(__file__))[0] + "\\uiprofile")
 
-    # #initSDk
-
-
-
     # load UI
     import uiprofile.window as window
-    import SDK
+
     window.startUi()

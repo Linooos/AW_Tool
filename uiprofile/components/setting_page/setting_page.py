@@ -1,12 +1,8 @@
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt
 
-from siui.components.option_card import SiOptionCardLinear, SiOptionCardPlane
 from siui.components.page import SiPage
-from siui.components.progress_bar import SiProgressBar
 from siui.components.titled_widget_group import SiTitledWidgetGroup
-from siui.components.widgets import SiDenseHContainer, SiDenseVContainer, SiLabel, SiPushButton, SiSimpleButton, \
-    SiSwitch
-from siui.core.globals import SiGlobal
+
 from siui.core.silicon import Si
 
 from uiprofile.components.setting_page.settingLinerCard import SettingLinerCard

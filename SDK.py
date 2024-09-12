@@ -1,20 +1,22 @@
+import os
 import pyAWToolSDK as aw
 import json
+
 
 fanCfgs = list()
 fanCount = None
 fanCtrl: aw.Fan_controller = None
-
 powerCfgs = list()
 powerCtrl: aw.Power_controller = None
 powerCount = None
 globalConfig = dict()
+configFile =  os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.json')
 
-
+'''json'''
 def readConfig():
     global globalConfig
     try:
-        with open('config.json', 'r') as file:
+        with open(configFile, 'r') as file:
             globalConfig = json.load(file)
     except FileNotFoundError:
         saveConfig()
@@ -24,10 +26,24 @@ def readConfig():
 
 
 def saveConfig():
-    with open('config.json', 'w') as file:
+    with open(configFile, 'w') as file:
         json.dump(globalConfig, file, indent=4)
 
+def checkDict(dir:str,dict:dict):
+    '''输入dict的键路径，解决嵌套字典输出keyerror问题'''
+    dirList = dir.split('/')
+    temp = dict
+    for i in dirList:
+        if temp is not dict:
+            return -1
+        if not temp.get(i):
+            temp[i] = {}
+        temp = temp[i]
 
+def checkGCfg(dir:str):
+    checkDict(dir,globalConfig)
+
+'''fan'''
 def getRPM(index):
     if index >= fanCount:
         return -1
@@ -45,6 +61,18 @@ def setFansBoost(index, value):
     if index >= fanCount: return -1
     byte = int((float(value) / 100.0) * 0xFF)
     return fanCtrl.setFan(index, byte)
+
+'''power'''
+def getPower():
+    """获取当前power值的index"""
+    return powerCtrl.getCurPower(False)
+
+def setPower(index):
+    """设置当前index代表的power值为当前power"""
+    return powerCtrl.setPower(index,False)
+
+def setGMode(enable):
+    return fanCtrl.setGMode(enable)
 
 
 def initSDK():
@@ -66,12 +94,11 @@ def initSDK():
         powerCfgs.append(powerCtrl.getPower(i))  # 创建power列表
 
     # 读取配置文件
+    # 打开文件并获取文件描述符
     readConfig()
 
     # 为文件设置不同模式命名
-
-    if not globalConfig.get('globalSetting'):
-        globalConfig['globalSetting'] = {}
+    checkGCfg('globalSetting')
     if not globalConfig['globalSetting'].get('powerName'):
         globalConfig['globalSetting']['powerName'] = {"0": "自定义模式",
                                                       '160': "均衡模式",
@@ -99,9 +126,30 @@ if __name__ == "__main__":
     # for i in range(fanCount):
     #     print(fanCtrl.getFanBoost(i))
 
-    for i in range(powerCtrl.getPowersCount()):
-        print(f"Power {i}:{powerCtrl.getPower(i)}")
+    # for i in range(powerCtrl.getPowersCount()):
+    #     print(f"Power {i}:{powerCtrl.getPower(i)}")
+    #
+    # print(f"current power :{powerCtrl.getCurPower(True)}")
+    # powerCtrl.setPower(163, True)
+    # print(f"current power :{powerCtrl.getCurPower(True)}")
 
-    print(f"current power :{powerCtrl.getCurPower(True)}")
-    powerCtrl.setPower(163, True)
-    print(f"current power :{powerCtrl.getCurPower(True)}")
+    # print(getPower())
+    # print(setPower(3))
+    # print(getPower())
+    # print(powerCfgs[3])
+
+    # d = {}
+    # checkDict("a",d)
+    # checkDict("a", d)
+    # print(f"d:{d}")
+    #     powerCtrl.setPower(164,True)
+    #     # print(powerCtrl.getCurPower(True))
+    #     # powerCtrl.setPower(171, True)
+    #     # print(powerCtrl.getCurPower(True))
+
+    setGMode(True)
+    os.system("pause")
+    print(powerCtrl.getCurPower(True))
+    setGMode(False)
+    print(powerCtrl.getCurPower(True))
+

@@ -1,6 +1,7 @@
 
 from components.setting_page.setting_page import SettingPage
 from components.page_about import About
+
 from components.page_container import ExampleContainer
 from components.page_dialog import ExampleDialogs
 from components.page_functional import ExampleFunctional
@@ -17,10 +18,12 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDesktopWidget
 from uiprofile.components.fan_page.fan_page import FanPage
-from SDK import globalConfig as cfg,saveConfig
+from SDK import globalConfig as cfg,saveConfig,checkGCfg
 # siui.core.globals.SiGlobal.siui.loadIcons(
 #     icons.IconDictionary(color=SiGlobal.siui.colors.fromToken(SiColor.SVG_NORMAL)).icons
 # )
+checkGCfg('globalSetting/powerName')
+
 
 
 class AW_menu(TrayTaskWindow.TrayTaskWindow):
@@ -68,8 +71,6 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
             if cfg["globalSetting"]["fanPageEnable"]:
                 self.settingPage.enable_fan_control_card.switch.setChecked(True)
         except KeyError:
-            if not cfg.get("globalSetting"):
-                cfg["globalSetting"] = dict()
             cfg["globalSetting"]["fanPageEnable"] = False
 
 

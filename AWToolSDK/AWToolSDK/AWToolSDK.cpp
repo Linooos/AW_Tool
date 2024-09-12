@@ -94,6 +94,18 @@ LONG FanControl::getFanBoost(BYTE index)
 {
     return this->controller->GetFanBoost(index);
 }
+LONG FanControl::setGMode(bool state)
+{
+    if (this->controller->GetSystemID() == 2933 && state) // G5 5510 fix
+        this->controller->SetPower(0xa0);
+    if (state) {
+        return this->controller->SetGMode(state);
+    }
+    else {
+        this->controller->SetPower(this->controller->powers[1]);
+    }
+    
+}
 LONG FanControl::unlockFanControl()
 {
     return this->controller->Unlock();
