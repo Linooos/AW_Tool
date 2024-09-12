@@ -44,8 +44,8 @@ class TrayTaskWindow(miniApp):
             self.window().hide()
             self.windowState = False
 
-    def eventFilter(self, source, event):
-        if event.type() == QEvent.WindowDeactivate:
-            self.window().hide()
-            self.windowState = False
-        return super().eventFilter(source, event)
+    # def eventFilter(self, source, event):
+    #     if event.type() == QEvent.WindowDeactivate:
+    #         #self.window().hide()
+    #         self.windowState = False
+    #     return super().eventFilter(source, event)

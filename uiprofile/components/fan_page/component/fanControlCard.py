@@ -1,12 +1,17 @@
 from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtWidgets import QSizePolicy
 
 import SDK
-from SDK import fanCount, getRPM, fanCfgs, setFansBoost,setGMode,globalConfig,checkGCfg
-from siui.components import SiDenseVContainer, SiLabel, SiSliderH, SiOptionCardPlane, SiDenseHContainer, SiSwitch
+from SDK import fanCount, getRPM, fanCfgs, setFansBoost, setGMode, globalConfig, checkGCfg
+from siui.components import SiDenseVContainer, SiLabel, SiSliderH, SiOptionCardPlane, SiDenseHContainer, SiSwitch, \
+    SiPushButton, SiSimpleButton
 from siui.components.combobox import SiComboBox
+from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
 from siui.core.silicon import Si
+
 checkGCfg('fanPage')
+
 
 class FanInfoLayout(SiDenseHContainer):
     def __init__(self, *args, **kwargs):
@@ -55,6 +60,7 @@ class FanInfoLayout(SiDenseHContainer):
 
 class FanSlider(SiSliderH):
     sliderList = []
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fanid = None
@@ -83,7 +89,7 @@ class FanSlider(SiSliderH):
             self.auto_update = True
         super().mouseReleaseEvent(event)
 
-    def setGMode(self,enable):
+    def setGMode(self, enable):
         if enable:
             self.gMod = True
             self.setValue(100)
@@ -93,6 +99,8 @@ class FanSlider(SiSliderH):
             self.setValue(SDK.globalConfig["fanPage"][f'{self.fanid}'])
             self.setEnabled(True)
 
+    def resetValue(self):
+        self.setValue(0)
 
     def on_slider_value_changed(self):
         #if not self.auto_update:
@@ -104,6 +112,7 @@ class FanSlider(SiSliderH):
 
     def saveConfig(self):
         """ 延迟保存文件"""
+
         #SDK.saveConfig()
         def saveAndDelTimer(self):  #5秒后，运行停止结束计时并保存配置
             self.qtimer.stop()
@@ -133,6 +142,19 @@ class FanCardContainer(SiOptionCardPlane):
         self.G_mod_switch.setFixedWidth(40)
         self.G_mod_switch.toggled.connect(self.G_mod_toggle)
 
+        # 重置菜单
+        self.reset_button = SiSimpleButton(self)
+        self.reset_button.attachment().setFont(SiGlobal.siui.fonts["S_BOLD"])
+
+        self.reset_button.attachment().load("uiprofile/icon/arrows-repeat.svg")
+        self.reset_button.colorGroup().assign(SiColor.BUTTON_OFF, "#c8c8c8")
+        self.reset_button.reloadStyleSheet()
+        self.reset_button.resize(48, 48)
+        self.reset_button.clicked.connect(self.reset_adjustment)
+        reset_button_container = SiDenseVContainer(self)
+        reset_button_container.setAlignment(Qt.AlignBottom)
+        reset_button_container.addWidget(self.reset_button, side='bottom')
+
         # GMod选择标签
         self.power_label = SiLabel(self)
         self.power_label.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
@@ -145,14 +167,14 @@ class FanCardContainer(SiOptionCardPlane):
         self.power_container.setAlignment(Qt.AlignRight)
         #self.power_container.setAdjustWidgetsSize(True)
         self.power_container.addPlaceholder(8)
-        self.power_container.addWidget(self.power_label,side="top")
-        self.power_container.addWidget(self.G_mod_switch,side='top')
+        self.power_container.addWidget(self.power_label, side="top")
+        self.power_container.addWidget(self.G_mod_switch, side='top')
         self.power_container.addPlaceholder(8)
 
-        self.header().addPlaceholder(20)
+        self.header().addWidget(reset_button_container, side='right')
         self.header().addWidget(self.power_container, side='right')
 
-        self.body().setFixedWidth(400)
+        self.body().setMinimumWidth(430)
 
         # 添加风扇
         for i in range(fanCount):
@@ -171,23 +193,32 @@ class FanCardContainer(SiOptionCardPlane):
             fanRPM.fanType.setText("FAN#" + str(i + 1))
 
             #滑条设置
+            fanContainer = SiDenseVContainer(self)
+            fanContainer.setSpacing(15)
+
             fanSlider = FanSlider(self)
+            fanSlider.setParent(fanContainer)
             self.fanSliderlist.append(fanSlider)
-            fanSlider.setFixedHeight(20)
-            fanSlider.setFixedWidth(400)
+            #fanSlider.setFixedHeight(20)
+            #fanSlider.setFixedWidth(400)
+            fanSlider.resize(self.body().width(), 20)
             fanSlider.setMinimum(0)
             fanSlider.setMaximum(100)
             fanSlider.fanid = i
             fanSlider.initConfig()
             fanSlider.on_slider_value_changed()
 
-            fanContainer = SiDenseVContainer(self)
-            fanContainer.setSpacing(15)
             fanContainer.addWidget(fanRPM)
             fanContainer.addWidget(fanSlider)
-            fanContainer.adjustSize()
+            fanContainer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             self.body().addWidget(fanContainer)
             self.body().setFixedHeight(self.body().height() + 60)
+
+        #载入保存
+        try:
+            self.power_label.setEnabled(globalConfig['fanPage']['GModEnable'])
+        except KeyError:
+            globalConfig['fanPage']['GModEnable'] = False
 
         #设置检测计时器
         self.timer = QTimer(self)
@@ -197,14 +228,16 @@ class FanCardContainer(SiOptionCardPlane):
         self.auto_update = True
 
     def getSliderList(self):
-        return  self.fanSliderlist
+        return self.fanSliderlist
+
     def update_slider_value(self):
+        '''自动设置转速文本'''
         for i in range(fanCount):
             if self.fanSliderlist[i].auto_update:
                 self.fanRPMlist[i].fanContent.setText(str(getRPM(i)) + "RPM")
-                pass
 
-    def G_mod_toggle(self,checked):
+    def G_mod_toggle(self, checked):
+        '''开关g模式'''
         if checked:
             setGMode(True)
             globalConfig['fanPage']['GModEnable'] = True
@@ -218,5 +251,11 @@ class FanCardContainer(SiOptionCardPlane):
                 i.setGMode(False)
         SDK.saveConfig()
 
+    def reset_adjustment(self):
+        if self.G_mod_switch.isChecked():
+            self.G_mod_switch.setChecked(False)
 
-
+            #self.G_mod_toggle(False)
+        else:
+            for i in self.getSliderList():
+                i.resetValue()

@@ -88,14 +88,14 @@ def send_custom_message(type_, auto_close=False, auto_close_duration=1000):
 
     new_message_box = SiSideMessageBox()
     new_message_box.setMessageType(type_)
-    new_message_box.content().container().setSpacing(0)
-    new_message_box.content().container().addPlaceholder(16)
-    new_message_box.content().container().addWidget(info_label)
-    new_message_box.content().container().addPlaceholder(8)
-    new_message_box.content().container().addWidget(split_line)
-    new_message_box.content().container().addPlaceholder(24)
-    new_message_box.content().container().addWidget(container)
-    new_message_box.content().container().addPlaceholder(32)
+    new_message_box.content().child_container().setSpacing(0)
+    new_message_box.content().child_container().addPlaceholder(16)
+    new_message_box.content().child_container().addWidget(info_label)
+    new_message_box.content().child_container().addPlaceholder(8)
+    new_message_box.content().child_container().addWidget(split_line)
+    new_message_box.content().child_container().addPlaceholder(24)
+    new_message_box.content().child_container().addWidget(container)
+    new_message_box.content().child_container().addPlaceholder(32)
     new_message_box.adjustSize()
 
     if fold_after is not None:

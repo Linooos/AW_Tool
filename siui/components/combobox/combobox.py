@@ -20,7 +20,7 @@ class SiComboBox(ABCSiComboBox):
         self.menu().setAnimationManager(AnimationManager.EXPAND)
 
         self.value_label = SiLabel(self)
-        self.value_label.setFont(SiFont.fromToken(GlobalFont.S_NORMAL))
+        self.value_label.setFont(SiFont.fromToken(GlobalFont.S_BOLD))
         self.value_label.setAlignment(Qt.AlignVCenter)
         self.value_label.setFixedHeight(32)
         self.value_label.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)

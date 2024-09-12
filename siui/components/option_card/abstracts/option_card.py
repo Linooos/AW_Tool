@@ -12,8 +12,8 @@ class ABCSiOptionCardPlane(SiLabel):
         self.spacing_ = 24
 
         # 构建组成外观的控件
-        self.outfit_label_lower = SiLabel(self)
-        self.outfit_label_lower.setFixedStyleSheet("border-radius: 6px")
+        # self.outfit_label_lower = SiLabel(self)
+        # self.outfit_label_lower.setFixedStyleSheet("border-radius: 6px")
 
         self.outfit_label_upper = SiLabel(self)
         self.outfit_label_upper.setFixedStyleSheet("border-radius: 6px")
@@ -81,7 +81,7 @@ class ABCSiOptionCardPlane(SiLabel):
     def reloadStyleSheet(self):
         super().reloadStyleSheet()
 
-        self.outfit_label_lower.setStyleSheet("background-color: {}".format(SiGlobal.siui.colors["INTERFACE_BG_A"]))
+        # self.outfit_label_lower.setStyleSheet("background-color: {}".format(SiGlobal.siui.colors["INTERFACE_BG_A"]))
         self.outfit_label_upper.setStyleSheet("background-color: {}".format(SiGlobal.siui.colors["INTERFACE_BG_C"]))
 
     def resizeEvent(self, event):
@@ -91,5 +91,5 @@ class ABCSiOptionCardPlane(SiLabel):
 
         self.container.setGeometry(self.spacing(), 0, w-self.spacing()*2, h-3)
 
-        self.outfit_label_lower.setGeometry(0, 8, w, h-8)  # 防止上边出现底色毛边
+        # self.outfit_label_lower.setGeometry(0, 8, w, h-8)  # 防止上边出现底色毛边
         self.outfit_label_upper.resize(w, h - 3)

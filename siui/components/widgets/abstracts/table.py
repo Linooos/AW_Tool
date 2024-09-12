@@ -99,7 +99,7 @@ class ABCSiTable(SiWidget):
         return self.column_names
 
     def getColumnWidget(self, index):
-        return [row.container().widgets[index] for row in self.rows_]
+        return [row.child_container().widgets[index] for row in self.rows_]
 
     def readColumn(self, index):
         return [self.manager_.read(i, index) for i in range(len(self.rows_))]
@@ -110,7 +110,7 @@ class ABCSiTable(SiWidget):
         for i in range(len(self.rows_)):
             self.writeCell(i, index, values[i])
         for row in self.rows_:
-            row.container().arrangeWidgets()
+            row.child_container().arrangeWidgets()
 
     def addRow(self, widgets: list = None, data: list = None):
         new_row = SiRow(self)

@@ -59,9 +59,9 @@ class MessageSidebar(SiMasonryContainer):
                 "color: {}".format(self.colorGroup().fromToken(SiColor.TEXT_D))
             )
             label.setText(text)
-            new_message_box.content().container().addWidget(label)
+            new_message_box.content().child_container().addWidget(label)
         else:
-            new_message_box.content().container().setSpacing(0)
+            new_message_box.content().child_container().setSpacing(0)
             title_label = SiLabel(self)
             title_label.setFixedWidth(380 - new_message_box.content().theme_wing_width - 32)
             title_label.setSiliconWidgetFlag(Si.AdjustSizeOnTextChanged)
@@ -90,8 +90,8 @@ class MessageSidebar(SiMasonryContainer):
             )
             description_label.setText(text)
 
-            new_message_box.content().container().addWidget(title_label)
-            new_message_box.content().container().addWidget(description_label)
+            new_message_box.content().child_container().addWidget(title_label)
+            new_message_box.content().child_container().addWidget(description_label)
 
         if fold_after is not None:
             new_message_box.setFoldAfter(fold_after)

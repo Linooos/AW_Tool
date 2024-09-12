@@ -6,6 +6,9 @@ from siui.components.titled_widget_group import SiTitledWidgetGroup
 
 from SDK import checkGCfg
 from .component.fanControlCard import FanCardContainer
+from .component.coreSettinglabel import CoreSettinglabel
+from .component.powerSettingLabel import PowerSettinglabel
+
 checkGCfg("fanPage")
 
 
@@ -26,15 +29,17 @@ class FanPage(SiPage):
         # 侧边栏信息
         with self.titled_widgets_group as group:
             group.addPlaceholder(1)
-            self.side_messages = FanCardContainer(self)
+            self.fan_setting_label = FanCardContainer(self)
             group.addTitle("风扇控制")
-            self.side_messages.body().addPlaceholder(12)
-            self.side_messages.adjustSize()
 
-            group.addWidget(self.side_messages)
+            self.fan_setting_label.body().addPlaceholder(12)
+            self.fan_setting_label.adjustSize()
+            group.addWidget(self.fan_setting_label)
 
-        with self.titled_widgets_group as group:
-            group.addTitle("电源模式")
+            self.core_setting_label = CoreSettinglabel(self)
+            group.addWidget(self.core_setting_label)
+            self.power_setting_label = PowerSettinglabel(self)
+            group.addWidget(self.power_setting_label)
 
         # 添加页脚的空白以增加美观性
         self.titled_widgets_group.addPlaceholder(64)

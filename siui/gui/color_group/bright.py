@@ -12,7 +12,7 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.THEME_TRANSITION_A, "#2abed8")
         self.assign(SiColor.THEME_TRANSITION_B, "#ff7575")
 
-        self.assign(SiColor.SVG_NORMAL, "#494f4d")
+        self.assign(SiColor.SVG_NORMAL, "#7d7d7d")
         self.assign(SiColor.SVG_THEME, "#53857d")
 
         self.assign(SiColor.LAYER_DIM, "#60000000")
@@ -20,7 +20,7 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.TOOLTIP_BG, "#eff9f9f9")
 
         self.assign(SiColor.INTERFACE_BG_A, "#c4c4c4")
-        self.assign(SiColor.INTERFACE_BG_B, "#dddddd")
+        self.assign(SiColor.INTERFACE_BG_B, "#d9d9d9")
         self.assign(SiColor.INTERFACE_BG_C, "#e5e5e5")
         self.assign(SiColor.INTERFACE_BG_D, "#eeeeee")
         self.assign(SiColor.INTERFACE_BG_E, "#f6f6f6")
@@ -40,7 +40,7 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.SIDE_MSG_THEME_WARNING, "#986351")
         self.assign(SiColor.SIDE_MSG_THEME_ERROR, "#98515b")
 
-        self.assign(SiColor.MENU_BG, "#464a4d")
+        self.assign(SiColor.MENU_BG, "#c8caca")
 
         # 标题相关
         self.assign(SiColor.TITLE_INDICATOR, "#2accb3")
@@ -60,8 +60,8 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.BUTTON_THEMED_SHADOW_A, "#1d8699")
         self.assign(SiColor.BUTTON_THEMED_SHADOW_B, "#1d9963")
 
-        self.assign(SiColor.BUTTON_ON, "#e5e5e5")
-        self.assign(SiColor.BUTTON_OFF, "#afafaf")
+        self.assign(SiColor.BUTTON_ON, "#626262")
+        self.assign(SiColor.BUTTON_OFF, "#2abed8")
 
         self.assign(SiColor.RADIO_BUTTON_UNCHECKED, "#211F25")
         self.assign(SiColor.RADIO_BUTTON_CHECKED, "#9c65ae")
@@ -80,7 +80,7 @@ class BrightColorGroup(SiColorGroup):
         self.assign(SiColor.BUTTON_LONG_PRESS_PROGRESS, "#ff836f")
 
         # 开关
-        self.assign(SiColor.SWITCH_DEACTIVATE, "#D2D2D2")
+        self.assign(SiColor.SWITCH_DEACTIVATE, "#b3b3b3")
         self.assign(SiColor.SWITCH_ACTIVATE, "#100912")
 
         # 滚动条
