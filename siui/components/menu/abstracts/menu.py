@@ -9,7 +9,7 @@ from siui.components.widgets.container import SiDenseVContainer
 from siui.components.widgets.label import SiLabel
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
-from siui.core.silicon import Si
+
 
 
 class ABCSiMenu(SiWidget):

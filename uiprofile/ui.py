@@ -1,15 +1,7 @@
-
 from components.setting_page.setting_page import SettingPage
 from components.page_about import About
 
-from components.page_container import ExampleContainer
-from components.page_dialog import ExampleDialogs
-from components.page_functional import ExampleFunctional
-from components.page_homepage import ExampleHomepage
-from components.page_icons import ExampleIcons
-from components.page_option_cards import ExampleOptionCards
-from components.page_page_control import ExamplePageControl
-from components.page_widgets import ExampleWidgets
+
 
 import TrayTaskWindow as TrayTaskWindow
 from siui.core.color import SiColor
@@ -18,12 +10,12 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDesktopWidget
 from uiprofile.components.fan_page.fan_page import FanPage
-from SDK import globalConfig as cfg,saveConfig,checkGCfg
+from SDK import globalConfig as cfg, saveConfig, checkGCfg, isAPI, checkAPI
+
 # siui.core.globals.SiGlobal.siui.loadIcons(
 #     icons.IconDictionary(color=SiGlobal.siui.colors.fromToken(SiColor.SVG_NORMAL)).icons
 # )
 checkGCfg('globalSetting/powerName')
-
 
 
 class AW_menu(TrayTaskWindow.TrayTaskWindow):
@@ -33,7 +25,7 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
         self.fanButton = None
         self.fanPage = None
 
-        screen_geo = QDesktopWidget().screenGeometry()
+        #screen_geo = QDesktopWidget().screenGeometry()
 
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
@@ -57,26 +49,26 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
                                  icon="./uiprofile/components/setting_page/settings-sliders.svg",
                                  hint="设置", side="bottom")
 
-
         self.layerMain().setPage(1)
 
+        # 配置预开启的页面
+        # 风扇页面
+        apiList = checkAPI()
+        if not (("isAlienware" in apiList) or ("isSupported" in apiList) or ("isGmode" in apiList)):
+            # 链接设置界面按钮回调
+            self.settingPage.enable_fan_control_card.switch.toggled.connect(
+                lambda checked: self.switchPage(checked, "Fan"))
 
-        # 链接设置界面按钮回调
-        self.settingPage.enable_fan_control_card.switch.toggled.connect(
-            lambda checked: self.switchPage(checked, "Fan"))
-
-        #self.layerMain().setPage(0)
-        # 读取保存文件开启的页面
-        try:
-            if cfg["globalSetting"]["fanPageEnable"]:
-                self.settingPage.enable_fan_control_card.switch.setChecked(True)
-        except KeyError:
-            cfg["globalSetting"]["fanPageEnable"] = False
-
-
-
-
-
+            # 开启界面通过保存文件
+            try:
+                if cfg["globalSetting"]["fanPageEnable"]:
+                    self.settingPage.enable_fan_control_card.switch.setChecked(True)
+            except KeyError:
+                cfg["globalSetting"]["fanPageEnable"] = False
+        else:
+            # 隐藏按钮
+            self.settingPage.enable_fan_control_card.switch.setEnabled(False)
+            self.settingPage.enable_fan_control_card.switch.setHidden(True)
 
         # self.layerMain().addPage(ExampleHomepage(self),
         #                          icon=SiGlobal.siui.iconpack.get("ic_fluent_home_filled"),
@@ -110,21 +102,19 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
         self.layerMain().setPage(0)
         SiGlobal.siui.reloadAllWindowsStyleSheet()
 
-    def switchPage(self,checked,str):
+    def switchPage(self, checked, str):
         if checked:
             if str == "Fan":
                 self.fanPage = FanPage(self)
                 self.fanButton = self.layerMain().addPage(self.fanPage,
-                                         icon='uiprofile/components/setting_page/AWCC.svg',
-                                         hint="主页", side="top")
+                                                          icon='uiprofile/components/setting_page/AWCC.svg',
+                                                          hint="主页", side="top")
                 cfg["globalSetting"]["fanPageEnable"] = True
         else:
             if str == "Fan":
-                self.layerMain().removePage(self.fanButton,self.fanPage)
+                self.layerMain().removePage(self.fanButton, self.fanPage)
                 self.fanPage.deleteLater()
                 self.fanButton.deleteLater()
-                cfg["globalSetting"]["fanPageEnable"] =False
+                cfg["globalSetting"]["fanPageEnable"] = False
         saveConfig()
         SiGlobal.siui.reloadAllWindowsStyleSheet()
-
-

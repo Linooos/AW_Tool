@@ -17,6 +17,7 @@ PYBIND11_MODULE(pyAWToolSDK, m)
 {
 #ifdef ALIEN_FAN_SDK // SDK中添加风扇控制函数
     m.doc() = u8"此类用于控制Alienware机器的风扇，提供切换电源模式等功能";
+    m.def("checkAPI", &::checkAPI);
     // 添加传感器信息结构类
     py::class_<AlienFan_SDK::ALIENFAN_SEN_INFO>(m, "Sensor_info", u8"传感器属性")
         .def(py::init<>())
@@ -52,7 +53,6 @@ PYBIND11_MODULE(pyAWToolSDK, m)
 
     py::class_<FanControl>(m, "Fan_controller")
         .def(py::init<>())
-        .def("checkAPI", &FanControl::checkAPI)
         .def("getFan", &FanControl::getFan, u8"获取风扇的id和type")
         //.def("getSensor", &FanControl::getSensor);
         .def("getMAXFan", &FanControl::getMAXFan, u8"返回风扇总数，以风扇数量作为index用getFan函数获取风扇id和风扇类别")

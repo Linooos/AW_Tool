@@ -19,13 +19,14 @@ enum{
 	isGmode = 4
 };
 
+LONG checkAPI(byte type);
+
 class FanControl {
 public:
 	FanControl();
 	~FanControl();
 	AlienFan_SDK::Control* controller;
-	BOOL isAPIValid;
-    LONG checkAPI(byte type);
+    
 
 	//get
 	

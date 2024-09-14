@@ -1,0 +1,1 @@
+start C:\Users\abc67\.conda\envs\AWTool\python.exe SDK.py

@@ -2,7 +2,6 @@ import os
 import pyAWToolSDK as aw
 import json
 
-
 fanCfgs = list()
 fanCount = None
 fanCtrl: aw.Fan_controller = None
@@ -10,9 +9,12 @@ powerCfgs = list()
 powerCtrl: aw.Power_controller = None
 powerCount = None
 globalConfig = dict()
-configFile =  os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.json')
+configFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.json')
+isAPI: dict = None
 
 '''json'''
+
+
 def readConfig():
     global globalConfig
     try:
@@ -29,7 +31,8 @@ def saveConfig():
     with open(configFile, 'w') as file:
         json.dump(globalConfig, file, indent=4)
 
-def checkDict(dir:str,dict:dict):
+
+def checkDict(dir: str, dict: dict):
     '''输入dict的键路径，解决嵌套字典输出keyerror问题'''
     dirList = dir.split('/')
     temp = dict
@@ -40,10 +43,14 @@ def checkDict(dir:str,dict:dict):
             temp[i] = {}
         temp = temp[i]
 
-def checkGCfg(dir:str):
-    checkDict(dir,globalConfig)
+
+def checkGCfg(dir: str):
+    checkDict(dir, globalConfig)
+
 
 '''fan'''
+
+
 def getRPM(index):
     if index >= fanCount:
         return -1
@@ -62,17 +69,42 @@ def setFansBoost(index, value):
     byte = int((float(value) / 100.0) * 0xFF)
     return fanCtrl.setFan(index, byte)
 
+
 '''power'''
+
+
 def getPower():
     """获取当前power值的index"""
     return powerCtrl.getCurPower(False)
 
+
 def setPower(index):
     """设置当前index代表的power值为当前power"""
-    return powerCtrl.setPower(index,False)
+    return powerCtrl.setPower(index, False)
+
 
 def setGMode(enable):
     return fanCtrl.setGMode(enable)
+
+
+def checkAPI():
+    global isAPI
+    if isAPI is None:
+        isAPI = {"isAlienware": True,
+                 "isSupported": True,
+                 "isTCC": True,
+                 "isXMP": True,
+                 "isGmode": True}
+        for i in range(5):
+            if aw.checkAPI(i) == -1:
+                print(i)
+                print(aw.checkAPI(i))
+                isAPI[list(isAPI.keys())[i]] = False
+    keylist = []
+    for key, value in isAPI.items():
+        if not value:
+            keylist.append(key)
+    return keylist
 
 
 def initSDK():
@@ -80,7 +112,7 @@ def initSDK():
     # Initialize SDK
     fanCtrl = aw.Fan_controller()  # fans control
     fanCount = fanCtrl.getFansCount()  # fans count
-
+    checkAPI()
     powerCtrl = aw.Power_controller()  # power 控制器
     powerCount = powerCtrl.getPowersCount()  # 获取power数量
 
@@ -109,9 +141,6 @@ def initSDK():
     saveConfig()
 
 
-
-
-print("initial SDK")
 initSDK()
 
 if __name__ == "__main__":
@@ -147,9 +176,13 @@ if __name__ == "__main__":
     #     # powerCtrl.setPower(171, True)
     #     # print(powerCtrl.getCurPower(True))
 
-    setGMode(True)
+    # setGMode(True)
+    # os.system("pause")
+    # print(powerCtrl.getCurPower(True))
+    # setGMode(False)
+    # print(powerCtrl.getCurPower(True))
+    print(isAPI)
+    print(checkAPI())
+    for i in range(5):
+        print(aw.checkAPI(i))
     os.system("pause")
-    print(powerCtrl.getCurPower(True))
-    setGMode(False)
-    print(powerCtrl.getCurPower(True))
-
