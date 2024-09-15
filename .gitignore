@@ -10,6 +10,8 @@ x64
 
 # Distribution / packaging
 .Python
+examples/
+a.bat
 build/
 develop-eggs/
 dist/
