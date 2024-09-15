@@ -1,5 +1,6 @@
-import os
-import pyAWToolSDK as aw
+import os,sys
+sys.path.append(os.path.split(os.path.abspath(__file__))[0] + "\\.venv")
+import DLLs.pyAWToolSDK as aw
 import json
 
 fanCfgs = list()
@@ -9,8 +10,35 @@ powerCfgs = list()
 powerCtrl: aw.Power_controller = None
 powerCount = None
 globalConfig = dict()
-configFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.json')
+configFile = os.path.join(os.path.dirname(sys.argv[0]), 'config.json')
 isAPI: dict = None
+CpuCtrl: aw.Cpu_controller = None
+
+
+import winreg as reg
+def switchToAutoStart(state):
+    # 获取文件名
+    file_path = sys.argv[0]
+    file_name = os.path.basename(file_path)
+    # 注册表路径
+    key = r"Software\Microsoft\Windows\CurrentVersion\Run"
+
+    # 打开注册表
+    open_key = reg.OpenKey(reg.HKEY_CURRENT_USER, key, 0, reg.KEY_ALL_ACCESS)
+
+    if state:
+        # 设置值
+        reg.SetValueEx(open_key, file_name, 0, reg.REG_SZ, file_path)
+    else:
+        try:
+            reg.DeleteValue(open_key, file_name)
+            print(f"{file_name} 已成功从启动项中删除。")
+        except FileNotFoundError:
+            print(f"{file_name} 不存在于启动项中。")
+
+    # 关闭注册表
+    reg.CloseKey(open_key)
+
 
 '''json'''
 
@@ -86,6 +114,14 @@ def setPower(index):
 def setGMode(enable):
     return fanCtrl.setGMode(enable)
 
+def getTurbo(type):
+    if type=='battery':return CpuCtrl.getTurboModBattery()
+    if type == 'adapter':return  CpuCtrl.getTurboModAdapter()
+
+
+def setTurbo(type,value):
+    if type == 'battery': return CpuCtrl.setTurboModBattery(value)
+    if type == 'adapter': return CpuCtrl.setTurboModAdapter(value)
 
 def checkAPI():
     global isAPI
@@ -108,14 +144,15 @@ def checkAPI():
 
 
 def initSDK():
-    global fanCfgs, fanCount, fanCtrl, powerCtrl, powerCount, powerCfgs
+    global fanCfgs, fanCount, fanCtrl, powerCtrl, powerCount, powerCfgs, CpuCtrl
     # Initialize SDK
     fanCtrl = aw.Fan_controller()  # fans control
     fanCount = fanCtrl.getFansCount()  # fans count
     checkAPI()
     powerCtrl = aw.Power_controller()  # power 控制器
     powerCount = powerCtrl.getPowersCount()  # 获取power数量
-
+    CpuCtrl = aw.Cpu_controller()
+    print("sdk init")
     # load info config from SDK
     for i in range(fanCount):
         info = aw.Fan_info()  # 作为引用参数传递 数据结构
@@ -139,6 +176,7 @@ def initSDK():
                                                       '163': "安静模式",
                                                       '164': "满速模式"}
     saveConfig()
+    print("sdk init")
 
 
 initSDK()
@@ -157,7 +195,9 @@ if __name__ == "__main__":
 
     # for i in range(powerCtrl.getPowersCount()):
     #     print(f"Power {i}:{powerCtrl.getPower(i)}")
-    #
+    # setPower(1)
+    # print(f"current power :{powerCtrl.getCurPower(True)}")
+    # setPower(4)
     # print(f"current power :{powerCtrl.getCurPower(True)}")
     # powerCtrl.setPower(163, True)
     # print(f"current power :{powerCtrl.getCurPower(True)}")
@@ -181,8 +221,13 @@ if __name__ == "__main__":
     # print(powerCtrl.getCurPower(True))
     # setGMode(False)
     # print(powerCtrl.getCurPower(True))
-    print(isAPI)
-    print(checkAPI())
-    for i in range(5):
-        print(aw.checkAPI(i))
-    os.system("pause")
+
+    # print(isAPI)
+    # print(checkAPI())
+    # for i in range(5):
+    #     print(aw.checkAPI(i))
+    # os.system("pause")
+    pass
+
+
+

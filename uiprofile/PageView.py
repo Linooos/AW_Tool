@@ -1,7 +1,8 @@
-from siui.templates.application.components.page_view.page_view import PageView, PageNavigator,PageButton
+from siui.templates.application.components.page_view.page_view import PageView, PageNavigator, PageButton
 
 from uiprofile.Container import SiStackedContainerModify
 from siui.components.widgets.container import SiDenseHContainer
+
 
 class PageNavigatorModify(PageNavigator):
     def __init__(self, *args, **kwargs):
@@ -41,27 +42,8 @@ class PageNavigatorModify(PageNavigator):
         self.buttons.remove(button)
         self.container.removeWidget(button)
 
-        # # 新建垂直容器
-        # container = SiDenseVContainer(self)
-        # container.setSpacing(8)
-        # container.setAlignment(Qt.AlignCenter)
-        #
-        # # 重新将button加入布局
-        # for i in range(len(self.buttons)):
-        #     self.buttons[i].setParent(None)
-        #     container.addWidget(self.buttons[i], side=self.sideList[i])
-        #
-        # # 删除原布局
-        # self.container.deleteLater()
-        #
-        # # 添加新建布局
-        # self.container = container
-        # self.container.show()
-        #
-        # # 重新设置标签宽度以解决向左偏移问题
-        # self.container.resize(self.size())
-
         self.setMaximumIndex(self.maximumIndex() - 1)
+
 
 class StackedContainerWithShowUpAnimationModify(SiStackedContainerModify):
     def setCurrentIndex(self, index: int):
@@ -71,9 +53,10 @@ class StackedContainerWithShowUpAnimationModify(SiStackedContainerModify):
         self.widgets[index].move(0, 64)
         self.widgets[index].moveTo(0, 0)
 
+
 class PageViewModify(PageView):
     def __init__(self, *args, **kwargs):
-        SiDenseHContainer.__init__(self,*args, **kwargs)
+        SiDenseHContainer.__init__(self, *args, **kwargs)
         # 清空自己的样式表防止继承
         self.setStyleSheet("")
 

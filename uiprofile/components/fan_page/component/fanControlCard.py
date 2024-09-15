@@ -5,10 +5,10 @@ import SDK
 from SDK import fanCount, getRPM, fanCfgs, setFansBoost, setGMode, globalConfig, checkGCfg
 from siui.components import SiDenseVContainer, SiLabel, SiSliderH, SiOptionCardPlane, SiDenseHContainer, SiSwitch, \
     SiPushButton, SiSimpleButton
-from siui.components.combobox import SiComboBox
 from siui.core.color import SiColor
 from siui.core.globals import SiGlobal
 from siui.core.silicon import Si
+from uiprofile.resourcePath import exe_resource_path
 
 checkGCfg('fanPage')
 
@@ -70,6 +70,10 @@ class FanSlider(SiSliderH):
         self.sliderList.append(self)
         self.gMod = False
 
+    def onlyUpdateUi(self,value):
+        self.valueChanged.disconnect(self.on_slider_value_changed)
+        self.setValue(value)
+        self.valueChanged.connect(self.on_slider_value_changed)
     def initConfig(self):
         if self.fanid is None:
             return
@@ -146,7 +150,7 @@ class FanCardContainer(SiOptionCardPlane):
         self.reset_button = SiSimpleButton(self)
         self.reset_button.attachment().setFont(SiGlobal.siui.fonts["S_BOLD"])
 
-        self.reset_button.attachment().load("uiprofile/icon/arrows-repeat.svg")
+        self.reset_button.attachment().load(exe_resource_path("uiprofile/icon/arrows-repeat.svg"))
         self.reset_button.colorGroup().assign(SiColor.BUTTON_OFF, "#c8c8c8")
         self.reset_button.reloadStyleSheet()
         self.reset_button.resize(48, 48)

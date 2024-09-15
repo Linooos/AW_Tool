@@ -3,6 +3,7 @@
 #define ALIEN_FAN_SDK
 #define ALIEN_POWER_SDK
 #define ALIEN_Graphic_SDK
+#define ALIEN_CPU_SDK
 #ifdef ALIEN_FAN_SDK //SDK中添加风扇控制函数
 #include "alienfan-SDK.h"
 
@@ -125,12 +126,25 @@ public:
 	void setGraphicOptimus(bool enable);
 
 
-private:
 
 };
 
 #endif
 
+#ifdef ALIEN_CPU_SDK
+class CpuControl
+{
+public:
+	CpuControl();
+	~CpuControl();
+	DWORD getTurboModAdapter();
+	DWORD setTurboModAdapter(DWORD value);
+	DWORD getTurboModBattery();
+	DWORD setTurboModBattery(DWORD value);
+
+
+};
+#endif
 
 int32_t testfct();
 //AWTOOLSDK_API int fnAWToolSDK(void);

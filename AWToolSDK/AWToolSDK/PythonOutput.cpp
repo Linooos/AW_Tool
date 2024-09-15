@@ -78,6 +78,16 @@ PYBIND11_MODULE(pyAWToolSDK, m)
         .def(py::init<>())
         .def("setGraphicOptimus", &GraphicControl::setGraphicOptimus, u8"设置显卡模式");
 #endif
+
+#ifdef ALIEN_CPU_SDK
+    py::class_<CpuControl>(m, "Cpu_controller")
+        .def(py::init<>())
+        .def("getTurboModAdapter", &CpuControl::getTurboModAdapter, u8"获取适配器倍频模式")
+        .def("setTurboModAdapter", &CpuControl::setTurboModAdapter, u8"设置适配器倍频模式")
+        .def("getTurboModBattery", &CpuControl::getTurboModBattery, u8"获取电池倍频模式")
+        .def("setTurboModBattery", &CpuControl::setTurboModBattery, u8"设置电池倍频模式");
+
+#endif
     m.def("testfct", &testfct);
 
 }

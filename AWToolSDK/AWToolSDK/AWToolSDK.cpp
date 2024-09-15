@@ -3,6 +3,8 @@
 #include <pybind11/pybind11.h>
 #include "AWToolSDK.h"
 #include <windows.h>
+#include <powrprof.h>
+#pragma comment(lib,"PowrProf.lib")
 
 extern "C" {
     _declspec(dllexport) DWORD NvOptimusEnablement= 0x00000001;
@@ -189,5 +191,70 @@ void GraphicControl::setGraphicOptimus(bool enable)
     staticSetGraphicOptimus(enable);
 }
 #endif
+#ifdef ALIEN_CPU_SDK
+CpuControl::CpuControl()
+{
+}
 
+CpuControl::~CpuControl()
+{
+}
 
+DWORD CpuControl::getTurboModAdapter()
+{
+    GUID* currentScheme;
+    PowerGetActiveScheme(NULL, &currentScheme);
+    GUID groupId;
+    GUID optionId;
+    DWORD result;
+#ifdef _DEBUG
+    printf("getTurboMod adptr!\n");
+#endif // 
+    IIDFromString(L"{54533251-82be-4824-96c1-47b60b740d00}", &groupId);
+    IIDFromString(L"{be337238-0d82-4146-a960-4f3749d470c7}", &optionId);
+    PowerReadACValueIndex(NULL, currentScheme, &groupId, &optionId, &result);
+    return result;
+}
+
+DWORD CpuControl::setTurboModAdapter(DWORD value)
+{
+    GUID* currentScheme;
+    PowerGetActiveScheme(NULL, &currentScheme);
+    GUID groupId;
+    GUID optionId;
+#ifdef _DEBUG
+    printf("setTurboMod adptr!\n");
+#endif // 
+    IIDFromString(L"{54533251-82be-4824-96c1-47b60b740d00}", &groupId);
+    IIDFromString(L"{be337238-0d82-4146-a960-4f3749d470c7}", &optionId);
+    DWORD res = PowerWriteACValueIndex(NULL, currentScheme, &groupId, &optionId, value);
+    return PowerSetActiveScheme(NULL, currentScheme);
+    
+
+}
+
+DWORD CpuControl::getTurboModBattery()
+{
+    GUID* currentScheme;
+    PowerGetActiveScheme(NULL, &currentScheme);
+    GUID groupId;
+    GUID optionId;
+    DWORD result;
+    IIDFromString(L"{54533251-82be-4824-96c1-47b60b740d00}", &groupId);
+    IIDFromString(L"{be337238-0d82-4146-a960-4f3749d470c7}", &optionId);
+    PowerReadDCValueIndex(NULL, currentScheme, &groupId, &optionId, &result);
+    return result;
+}
+
+DWORD CpuControl::setTurboModBattery(DWORD value)
+{
+    GUID* currentScheme;
+    PowerGetActiveScheme(NULL, &currentScheme);
+    GUID groupId;
+    GUID optionId;
+    IIDFromString(L"{54533251-82be-4824-96c1-47b60b740d00}", &groupId);
+    IIDFromString(L"{be337238-0d82-4146-a960-4f3749d470c7}", &optionId);
+    DWORD res = PowerWriteDCValueIndex(NULL, currentScheme, &groupId, &optionId, value);
+    return PowerSetActiveScheme(NULL, currentScheme);
+}
+#endif // ALIEN_CPU_SDK

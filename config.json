@@ -8,13 +8,16 @@
             "163": "\u5b89\u9759\u6a21\u5f0f",
             "164": "\u6ee1\u901f\u6a21\u5f0f"
         },
-        "fanPageEnable": true
+        "fanPageEnable": true,
+        "minimize": true,
+        "autoStart": false
     },
     "fanPage": {
         "0": 0,
         "1": 0,
         "2": 0,
         "3": 0,
-        "GModEnable": false
+        "GModEnable": false,
+        "powerEnable": 0
     }
 }

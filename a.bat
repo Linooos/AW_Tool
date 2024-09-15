@@ -1,1 +1,1 @@
-start C:\Users\abc67\.conda\envs\AWTool\python.exe SDK.py
+start C:\Users\abc67\Documents\GitHub\AW\.venv\Scripts\activate.bat

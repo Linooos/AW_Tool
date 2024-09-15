@@ -1,15 +1,21 @@
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction
+
+from PyQt5.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QAction
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt, QObject, QEvent
+from PyQt5.QtCore import QEvent
 from uiprofile.miniApp import miniApp
 from SDK import saveConfig
+from uiprofile.resourcePath import exe_resource_path
+
+
+
 class TrayTaskWindow(miniApp):
     windowState = True
     def __init__(self, *args, **kwargs):
+        #sys.path.append(os.path.split(os.path.abspath(__file__))[0] + "\\uiprofile\\icon\\")
         super().__init__(*args, **kwargs)
         self.tray_icon = QSystemTrayIcon(self)
-        self.tray_icon.setIcon(QIcon("./uiprofile/icon/AWCC.svg.png"))
+        self.tray_icon.setIcon(QIcon(exe_resource_path("uiprofile/icon/AWCC_color.svg")))
 
         show_action = QAction("显示", self)
         show_action.triggered.connect(self.show_window)
@@ -26,6 +32,8 @@ class TrayTaskWindow(miniApp):
         self.tray_icon.show()
 
         self.installEventFilter(self)
+
+
 
     def closeEvent(self, event):
         saveConfig()
@@ -44,8 +52,8 @@ class TrayTaskWindow(miniApp):
             self.window().hide()
             self.windowState = False
 
-    # def eventFilter(self, source, event):
-    #     if event.type() == QEvent.WindowDeactivate:
-    #         #self.window().hide()
-    #         self.windowState = False
-    #     return super().eventFilter(source, event)
+    def eventFilter(self, source, event):
+        if event.type() == QEvent.WindowDeactivate:
+            #self.window().hide()
+            self.windowState = False
+        return super().eventFilter(source, event)
