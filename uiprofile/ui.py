@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QIcon
 
 from components.setting_page.setting_page import SettingPage
 from components.page_about import About
@@ -36,7 +37,7 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
 
         #self.layerMain().setTitle("AW TOOLS")
         self.setWindowTitle("AW TOOLS")
-        # self.setWindowIcon(QIcon(exe_resource_path("uiprofile/icon/AWCC.svg")))
+        self.setWindowIcon(QIcon(exe_resource_path("uiprofile/icon/AWCC_color.svg")))
         # 添加关于界面
         self.aboutPage = About(self)
         self.layerMain().addPage(self.aboutPage,
