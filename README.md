@@ -1,4 +1,4 @@
-AW-tools
+# AW-tools
 
 用于alienware风扇控制，以及功耗模式选择。
 
@@ -12,3 +12,9 @@ AW-tools
 ## License
 
 本项目遵循GPLv3开源协议，禁止用于商业。
+
+## 部分算法来源
+
+alienFans SDK --> [AlienFx tools](https://github.com/T-Troll/alienfx-tools)
+
+PyQt-SiliconUI --> [PyQt-SiliconUI](https://github.com/ChinaIceF/PyQt-SiliconUI)
