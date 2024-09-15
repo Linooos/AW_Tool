@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QTimer, Qt
-from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QSizePolicy, QAbstractSlider
 
 import SDK
 from SDK import fanCount, getRPM, fanCfgs, setFansBoost, setGMode, globalConfig, checkGCfg
@@ -69,6 +69,19 @@ class FanSlider(SiSliderH):
         self.qtimer = None
         self.sliderList.append(self)
         self.gMod = False
+
+    def setValue(self,
+                 value: int,
+                 move_to: bool = True):
+        """
+        设置滑块的值并移动滑块到指定位置
+        :param value: 值
+        :param move_to: Use moving animation
+        """
+        #super().setValue(value)
+        QAbstractSlider.setValue(self, value)
+        self.handle.setHint(f"风扇速度： {str(self.value())} %")
+        self._move_handle_according_to_value(move_to=move_to)
 
     def onlyUpdateUi(self,value):
         self.valueChanged.disconnect(self.on_slider_value_changed)

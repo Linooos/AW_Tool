@@ -55,12 +55,12 @@ class About(SiPage):
 
             self.option_card_repo = SiOptionCardLinear(self)
             self.option_card_repo.setTitle("开源仓库", "在 GitHub 上查看 AWTool 的项目主页")
-            self.option_card_repo.load(SiGlobal.siui.iconpack.get("ic_fluent_home_database_regular"))
+            self.option_card_repo.load(exe_resource_path("uiprofile/components/page_about/home.svg"))
             self.option_card_repo.addWidget(self.button_to_repo)
 
             self.option_card_license = SiOptionCardLinear(self)
             self.option_card_license.setTitle("开源许可证", "本项目遵循 GPLv3.0 许可证供非商业使用")
-            self.option_card_license.load(SiGlobal.siui.iconpack.get("ic_fluent_certificate_regular"))
+            self.option_card_license.load(exe_resource_path("uiprofile/components/page_about/id-badge.svg"))
 
             group.addWidget(self.option_card_repo)
             group.addWidget(self.option_card_license)
@@ -70,7 +70,7 @@ class About(SiPage):
 
             self.option_card_copyright = SiOptionCardLinear(self)
             self.option_card_copyright.setTitle("UI引用声明-->PyQt-SiliconUI", "版权所有 © 2024 by ChinaIceF")
-            self.option_card_copyright.load(SiGlobal.siui.iconpack.get("ic_fluent_info_regular"))
+            self.option_card_copyright.load(exe_resource_path("uiprofile/components/page_about/info.svg"))
 
             self.button_to_repo2 = SiSimpleButton(self)
             self.button_to_repo2.resize(32, 32)
@@ -82,12 +82,12 @@ class About(SiPage):
 
             self.option_card_copyright2 = SiOptionCardLinear(self)
             self.option_card_copyright2.setTitle("部分算法声明-->AlienfxTools", "版权所有 © 2020-2023 by T-Troll")
-            self.option_card_copyright2.load(SiGlobal.siui.iconpack.get("ic_fluent_info_regular"))
+            self.option_card_copyright2.load(exe_resource_path("uiprofile/components/page_about/info.svg"))
             group.addWidget(self.option_card_copyright2)
 
             self.option_card_copyright3 = SiOptionCardLinear(self)
             self.option_card_copyright3.setTitle("设计声明-->AW TooL", "DESIGNED BY 不锈钢电热水壶")
-            self.option_card_copyright3.load(SiGlobal.siui.iconpack.get("ic_fluent_info_regular"))
+            self.option_card_copyright3.load(exe_resource_path("uiprofile/components/page_about/info.svg"))
             group.addWidget(self.option_card_copyright3)
 
         with self.titled_widget_group as group:
@@ -95,7 +95,7 @@ class About(SiPage):
 
             self.option_card_icon_pack = SiOptionCardLinear(self)
             self.option_card_icon_pack.setTitle("图标库", "本项目所使用部分ICON由FLATICON享有版权")
-            self.option_card_icon_pack.load(SiGlobal.siui.iconpack.get("ic_fluent_diversity_regular"))
+            self.option_card_icon_pack.load(exe_resource_path("uiprofile/components/page_about/home.svg"))
 
             group.addWidget(self.option_card_icon_pack)
 

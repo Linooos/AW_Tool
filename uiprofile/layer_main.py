@@ -104,10 +104,11 @@ class miniMenuLayer(SiLayer):
         self.page_view = PageViewModify(self)
 
         self.drag_label = SiDragWindowLabel(self)
-        self.drag_label.setFixedStyleSheet("border-radius: 5px")
-        self.drag_label.setFixedHeight(10)
+        #self.drag_label.setFixedStyleSheet("border-radius: 5px")
+        self.drag_label.setFixedHeight(30)
+        self.drag_label.setOpacity(1)
         self.drag_label.setAlignment(Qt.AlignCenter)
-        self.drag_label.setColor(self.colorGroup().fromToken(SiColor.INTERFACE_BG_A))
+        #self.drag_label.setColor(self.colorGroup().fromToken(SiColor.INTERFACE_BG_A))
 
         # <- 添加到垂直容器
         #self.app_top_tip.addWidget(self.container_title, side='left', index=0)
@@ -121,7 +122,7 @@ class miniMenuLayer(SiLayer):
         self.hide_button.colorGroup().assign(SiColor.BUTTON_OFF, "#c8c8c8")
         self.hide_button.setFixedSize(40, 40)
         self.hide_button.attachment().load(exe_resource_path("./uiprofile/icon/minus-small.svg"))
-        self.hide_button.setHint("quit")
+        self.hide_button.setHint("最小化窗口")
         self.hide_button.clicked.connect(lambda: self.window().hide())
         self.hide_button_container = SiDenseVContainer(self)
         self.hide_button_container.setAlignment(Qt.AlignCenter)
@@ -166,4 +167,4 @@ class miniMenuLayer(SiLayer):
         self.page_view.resize(event.size().width(), event.size().height())
         self.dim_.resize(event.size())
         self.hide_button_container.setGeometry(event.size().width()-53,8,self.hide_button_container.size().width(),self.hide_button_container.size().height())
-        self.drag_label.setGeometry(90,8,event.size().width()-150,self.drag_label.size().height())
+        self.drag_label.setGeometry(self.page_view.page_navigator.size().width(),0,self.window().size().width()-self.page_view.page_navigator.size().width(),self.drag_label.size().height())

@@ -37,7 +37,7 @@ class CoreSettinglabel(SiOptionCardLinear):
         self.adapterTurboFunc = lambda checked: self.Turbo_on_change(checked, 'adapter')
         self.core_adapter.toggled.connect(self.adapterTurboFunc)
 
-        self.setTitle("睿频设置", "供电模式睿频")
+        self.setTitle("睿频设置", "开关电池供电时睿频\n开关适配器供电时睿频")
         self.load(exe_resource_path("uiprofile/icon/microchip.svg"))
         self.addWidget(self.core_adapter)
         self.addWidget(self.core_battery)

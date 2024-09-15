@@ -26,7 +26,7 @@ class PowerSettinglabel(SiOptionCardLinear):
         # self.power_list.menu().setIndex(3)
         self.power_list.menu().indexChanged.connect(self.power_plan_on_change)
 
-        self.setTitle("电源模式", "ALIENWARE电源模式")
+        self.setTitle("温控模式选择", "预设模式加载自带温控方案\n自定义模式手动调控风扇")
         self.load(exe_resource_path("uiprofile/icon/dashboard.svg"))
         self.addWidget(self.power_list)
 

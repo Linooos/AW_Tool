@@ -40,7 +40,7 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
         # 添加关于界面
         self.aboutPage = About(self)
         self.layerMain().addPage(self.aboutPage,
-                                 icon=SiGlobal.siui.iconpack.get("ic_fluent_info_filled"),
+                                 icon=exe_resource_path("uiprofile/icon/info.svg"),
                                  hint="关于", side="bottom")
 
         # 添加设置界面
@@ -55,20 +55,20 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
         # 风扇页面
         apiList = checkAPI()
         if not (("isAlienware" in apiList) or ("isSupported" in apiList) or ("isGmode" in apiList)):
-            # 链接设置界面按钮回调
+            # 如果判断可以开启页面
+            # 设置加载页面函数与设置页面按钮的链接
             self.settingPage.enable_fan_control_card.switch.toggled.connect(
                 lambda checked: self.switchPage(checked, "Fan"))
 
-            # 开启界面通过保存文件
+            # 读取保存配置，是否预开启页面
             try:
                 if cfg["globalSetting"]["fanPageEnable"]:
                     self.settingPage.enable_fan_control_card.switch.setChecked(True)
             except KeyError:
                 cfg["globalSetting"]["fanPageEnable"] = False
         else:
-            # 隐藏按钮
-            self.settingPage.enable_fan_control_card.switch.setEnabled(False)
-            self.settingPage.enable_fan_control_card.switch.setHidden(True)
+            # 如果判断不能开启页面
+            self.settingPage.enable_fan_control_card.disable_when_not_supported("需要管理员模式\nOR\n不支持的机器")
 
         self.layerMain().setPage(0)
         SiGlobal.siui.reloadAllWindowsStyleSheet()
@@ -81,7 +81,7 @@ class AW_menu(TrayTaskWindow.TrayTaskWindow):
                 self.fanButton = self.layerMain().addPage(self.fanPage,
                                                           icon=exe_resource_path('uiprofile/components/setting_page'
                                                                                  '/AWCC.svg'),
-                                                          hint="主页", side="top")
+                                                          hint="AW风扇控制", side="top")
                 cfg["globalSetting"]["fanPageEnable"] = True
         else:
             if str == "Fan":
