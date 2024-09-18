@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from siui.core.silicon import Si
 
 from uiprofile.components.setting_page.settingLinerCard import SettingLinerCard
-from SDK import checkGCfg, globalConfig, saveConfig,switchToAutoStart
+from SDK import checkGCfg, globalConfig, saveConfig,switchToAutoStart,switchToLUA
 checkGCfg('globalSetting')
 
 
@@ -44,11 +44,18 @@ class SettingPage(SiPage):
         self.startup_minimize_card.load(exe_resource_path('uiprofile/components/setting_page/angle-small-down.svg'))
         self.startup_minimize_card.switch.toggled.connect(self.switch_on_minimize)
 
+        # 关闭管理员批准模式
+        self.system_LUA = SettingLinerCard(self)
+        self.system_LUA.setTitle("关闭管理员批准模式", "如果管理员模式无法自启动\n可以尝试开启此项")
+        self.system_LUA.load(exe_resource_path('uiprofile/components/setting_page/user.svg'))
+        self.system_LUA.switch.toggled.connect(self.switch_on_LUA)
+
         # <- ADD
         self.titled_widget_group.addTitle("全局设置")
         self.addPlaceholder(20)
         self.titled_widget_group.addWidget(self.system_startup_card)
         self.titled_widget_group.addWidget(self.startup_minimize_card)
+        self.titled_widget_group.addWidget(self.system_LUA)
 
         # 开启风扇控制
         self.enable_fan_control_card = SettingLinerCard(self)
@@ -84,6 +91,15 @@ class SettingPage(SiPage):
             globalConfig['globalSetting']['minimize'] = False
             self.startup_minimize_card.switch.setChecked(False)
 
+        try:
+            if globalConfig['globalSetting']['LUA']:
+                self.system_LUA.switch.setChecked(True)
+            else:
+                self.system_LUA.switch.setChecked(False)
+        except KeyError:
+            globalConfig['globalSetting']['LUA'] = False
+            self.system_LUA.switch.setChecked(False)
+
     def switch_on_autostart(self, checked):
 
         if checked:
@@ -103,5 +119,15 @@ class SettingPage(SiPage):
             globalConfig['globalSetting']['minimize'] = True
         else:
             globalConfig['globalSetting']['minimize'] = False
+        saveConfig()
+        pass
+
+    def switch_on_LUA(self, checked):
+        if checked:
+            switchToLUA(True)
+            globalConfig['globalSetting']['LUA'] = True
+        else:
+            switchToLUA(False)
+            globalConfig['globalSetting']['LUA'] = False
         saveConfig()
         pass

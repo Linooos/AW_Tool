@@ -69,6 +69,7 @@ class FanSlider(SiSliderH):
         self.qtimer = None
         self.sliderList.append(self)
         self.gMod = False
+        self.handle.setHint(f"风扇速度： {str(self.value())} %")
 
     def setValue(self,
                  value: int,
@@ -94,6 +95,7 @@ class FanSlider(SiSliderH):
             self.setValue(SDK.globalConfig["fanPage"][f'{self.fanid}'])
         except KeyError:
             SDK.globalConfig["fanPage"][f'{self.fanid}'] = 0
+            self.setValue(SDK.globalConfig["fanPage"][f'{self.fanid}'])
         self.saveConfig()
 
     def mousePressEvent(self, event):
@@ -223,7 +225,7 @@ class FanCardContainer(SiOptionCardPlane):
             fanSlider.setMaximum(100)
             fanSlider.fanid = i
             fanSlider.initConfig()
-            fanSlider.on_slider_value_changed()
+            #fanSlider.on_slider_value_changed()
 
             fanContainer.addWidget(fanRPM)
             fanContainer.addWidget(fanSlider)

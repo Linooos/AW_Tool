@@ -258,3 +258,14 @@ DWORD CpuControl::setTurboModBattery(DWORD value)
     return PowerSetActiveScheme(NULL, currentScheme);
 }
 #endif // ALIEN_CPU_SDK
+
+#ifdef ALIEN_DELL_BIOS_SDK
+BiosControl::BiosControl()
+{
+    this->bios = BiosContrl::BiosContrl_SDK::getInstance();
+}
+BiosControl::~BiosControl()
+{
+    this->bios->~BiosContrl_SDK();
+}
+#endif // ALIEN_DELL_BIOS_SDK

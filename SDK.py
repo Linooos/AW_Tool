@@ -39,6 +39,28 @@ def switchToAutoStart(state):
     # 关闭注册表
     reg.CloseKey(open_key)
 
+def switchToLUA(state):
+    # 获取文件名
+    file_path = sys.argv[0]
+    file_name = os.path.basename(file_path)
+    # 注册表路径
+    key = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
+
+    # 打开注册表
+    open_key = reg.OpenKey(reg.HKEY_LOCAL_MACHINE, key, 0, reg.KEY_ALL_ACCESS)
+
+    if state:
+        # 设置值
+        reg.SetValueEx(open_key, 'EnableLUA', 0, reg.REG_DWORD, 0)
+    else:
+        try:
+            reg.SetValueEx(open_key, 'EnableLUA', 0, reg.REG_DWORD, 1)
+            print(f"{file_name} 已成功从启动项中删除。")
+        except FileNotFoundError:
+            print(f"{file_name} 不存在于启动项中。")
+
+    # 关闭注册表
+    reg.CloseKey(open_key)
 
 '''json'''
 
@@ -92,6 +114,7 @@ def getFanBoost(index):
 
 
 def setFansBoost(index, value):
+    print(f"slider value changed{value}")
     if value > 100: return -1
     if index >= fanCount: return -1
     byte = int((float(value) / 100.0) * 0xFF)
@@ -109,6 +132,7 @@ def getPower():
 def setPower(index):
     """设置当前index代表的power值为当前power"""
     return powerCtrl.setPower(index, False)
+    pass
 
 
 def setGMode(enable):
@@ -227,6 +251,7 @@ if __name__ == "__main__":
     # for i in range(5):
     #     print(aw.checkAPI(i))
     # os.system("pause")
+    print(getPower())
     pass
 
 

@@ -4,8 +4,10 @@
 #define ALIEN_POWER_SDK
 #define ALIEN_Graphic_SDK
 #define ALIEN_CPU_SDK
+#define ALIEN_DELL_BIOS_SDK
 #ifdef ALIEN_FAN_SDK //SDK中添加风扇控制函数
-#include "alienfan-SDK.h"
+#include "alienfan-SDK/alienfan-SDK.h"
+#include "Dell_Bios_Control/BiosControl.h"
 
 //#include <string>
 
@@ -141,6 +143,18 @@ public:
 	DWORD setTurboModAdapter(DWORD value);
 	DWORD getTurboModBattery();
 	DWORD setTurboModBattery(DWORD value);
+
+
+};
+#endif
+
+#ifdef ALIEN_DELL_BIOS_SDK
+class BiosControl
+{
+public:
+	BiosContrl::BiosContrl_SDK* bios;
+	BiosControl();
+	~BiosControl();
 
 
 };

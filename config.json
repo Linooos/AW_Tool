@@ -9,15 +9,16 @@
             "164": "\u6ee1\u901f\u6a21\u5f0f"
         },
         "fanPageEnable": true,
-        "minimize": true,
-        "autoStart": false
+        "minimize": false,
+        "autoStart": false,
+        "LUA": true
     },
     "fanPage": {
-        "0": 0,
-        "1": 0,
-        "2": 0,
-        "3": 0,
+        "0": 4,
+        "1": 5,
+        "2": 4,
+        "3": 4,
         "GModEnable": false,
-        "powerEnable": 0
+        "powerEnable": 161
     }
 }
