@@ -268,4 +268,32 @@ BiosControl::~BiosControl()
 {
     this->bios->~BiosContrl_SDK();
 }
+DWORD BiosControl::setOption(BSTR name, BSTR value)
+{
+    return this->bios->setSingleConfig(name,value);
+}
+DWORD BiosControl::getEnumOptionsCount()
+{
+    return this->bios->attributes.size();
+}
+DWORD BiosControl::getIntOptionsCount()
+{
+    return this->bios->integers.size();
+}
+DWORD BiosControl::getStrOptionsCount()
+{
+    return this->bios->strings.size();
+}
+BIOSEnumerationAttributes BiosControl::getEnumOption(DWORD index)
+{
+    return this->bios->attributes[index];
+}
+BIOSIntegerAttribute BiosControl::getIntOption(DWORD index)
+{
+    return this->bios->integers[index];
+}
+BIOSStringAttribute BiosControl::getStrOption(DWORD index)
+{
+    return this->bios->strings[index];
+}
 #endif // ALIEN_DELL_BIOS_SDK

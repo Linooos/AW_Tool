@@ -88,6 +88,69 @@ PYBIND11_MODULE(pyAWToolSDK, m)
         .def("setTurboModBattery", &CpuControl::setTurboModBattery, u8"设置电池倍频模式");
 
 #endif
+#ifdef ALIEN_DELL_BIOS_SDK
+    py::class_<BIOSEnumerationAttributes>(m, "BIOSEnumerationAttributes", u8"")
+        .def(py::init<>())
+        .def_property_readonly("AttributeName", 
+            [](BIOSEnumerationAttributes info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.AttributeName, py::return_value_policy::take_ownership); }) 
+        .def_property_readonly("CurrentValue",
+            [](BIOSEnumerationAttributes info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.CurrentValue, py::return_value_policy::take_ownership); })
+        .def_property_readonly("DisplayName",
+            [](BIOSEnumerationAttributes info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.DisplayName, py::return_value_policy::take_ownership); })
+        .def_property_readonly("DefaultValue",
+            [](BIOSEnumerationAttributes info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.DefaultValue, py::return_value_policy::take_ownership); })
+        .def_property_readonly("possible",
+            [](BIOSEnumerationAttributes info) -> std::vector<pybind11::object>{
+               std::vector<pybind11::object> result;
+               for (auto& bstr : info.possible) {
+                   result.push_back(py::cast<std::wstring>(bstr, py::return_value_policy::take_ownership));
+                   //result.push_back(std::wstring(bstr));
+               }
+               return result;
+            });
+
+    py::class_<BIOSIntegerAttribute>(m, "BIOSIntegerAttribute", u8"")
+        .def(py::init<>())
+        .def_property_readonly("AttributeName",
+            [](BIOSIntegerAttribute info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.AttributeName, py::return_value_policy::take_ownership); })
+        .def_property_readonly("DisplayName",
+            [](BIOSIntegerAttribute info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.DisplayName, py::return_value_policy::take_ownership); })
+        .def_readwrite("CurrentValue", &BIOSIntegerAttribute::CurrentValue)
+        .def_readwrite("DefaultValue", &BIOSIntegerAttribute::DefaultValue)
+        .def_readwrite("LowerBound", &BIOSIntegerAttribute::LowerBound)
+        .def_readwrite("UpperBound", &BIOSIntegerAttribute::UpperBound);
+
+    py::class_<BIOSStringAttribute>(m, "BIOSStringAttribute", u8"")
+        .def(py::init<>())
+        .def_property_readonly("AttributeName",
+            [](BIOSStringAttribute info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.AttributeName, py::return_value_policy::take_ownership); })
+        .def_property_readonly("DisplayName",
+            [](BIOSStringAttribute info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.DisplayName, py::return_value_policy::take_ownership); })
+        .def_property_readonly("CurrentValue",
+            [](BIOSStringAttribute info) -> pybind11::object { // get
+                return py::cast<std::wstring>(info.CurrentValue, py::return_value_policy::take_ownership); })
+        .def_readwrite("MaxLength", &BIOSStringAttribute::MaxLength)
+        .def_readwrite("MinLength", &BIOSStringAttribute::MinLength);
+
+    py::class_<BiosControl>(m, "Bios_controller")
+        .def(py::init<>())
+        .def("setOption", &BiosControl::setOption, u8"设置选项")
+        .def("getIntOptionsCount", &BiosControl::getIntOptionsCount, u8"获取数字选项的数量")
+        .def("getStrOptionsCount", &BiosControl::getStrOptionsCount, u8"获取字符串选项的数量")
+        .def("getEnumOptionsCount", &BiosControl::getEnumOptionsCount, u8"获取可选选项的数量")
+        .def("getEnumOption", &BiosControl::getEnumOption, u8"获取可选选项信息")
+        .def("getIntOption", &BiosControl::getIntOption, u8"获取数字选项信息")
+        .def("getStrOption", &BiosControl::getStrOption, u8"获取字符型选项信息");
+
+#endif
     m.def("testfct", &testfct);
 
 }

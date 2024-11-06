@@ -155,6 +155,13 @@ public:
 	BiosContrl::BiosContrl_SDK* bios;
 	BiosControl();
 	~BiosControl();
+	DWORD setOption(BSTR name, BSTR value);
+	DWORD getEnumOptionsCount();
+	DWORD getIntOptionsCount();
+	DWORD getStrOptionsCount();
+	BIOSEnumerationAttributes getEnumOption(DWORD index);
+	BIOSIntegerAttribute getIntOption(DWORD index);
+	BIOSStringAttribute getStrOption(DWORD index);
 
 
 };

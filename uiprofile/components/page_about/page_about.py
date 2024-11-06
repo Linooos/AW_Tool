@@ -49,7 +49,7 @@ class About(SiPage):
             group.addTitle("版本信息")
 
             self.option_version = SiOptionCardLinear(self)
-            self.option_version.setTitle("版本", "1.0.0.1")
+            self.option_version.setTitle("版本", "1.0.0.2")
             self.option_version.load(exe_resource_path("uiprofile/components/page_about/info.svg"))
 
             group.addWidget(self.option_version)

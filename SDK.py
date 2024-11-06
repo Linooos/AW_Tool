@@ -1,8 +1,12 @@
 import os,sys
-sys.path.append(os.path.split(os.path.abspath(__file__))[0] + "\\.venv")
-import DLLs.pyAWToolSDK as aw
-import json
+#add the path to pyawtoolSDK
 
+sys.path.append(os.path.split(os.path.abspath(__file__))[0] + "\\.venv")
+
+import DLLs.pyAWToolSDK as aw
+
+import json
+import winreg as reg
 fanCfgs = list()
 fanCount = None
 fanCtrl: aw.Fan_controller = None
@@ -15,7 +19,12 @@ isAPI: dict = None
 CpuCtrl: aw.Cpu_controller = None
 
 
-import winreg as reg
+
+def exe_resource_path_SDK(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
 def switchToAutoStart(state):
     # 获取文件名
     file_path = sys.argv[0]
